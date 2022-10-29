@@ -81,4 +81,9 @@ class UserController extends Controller
     {
         //
     }
+
+    public function profile($id)
+    {
+        return view('user.profile');
+    }
 }

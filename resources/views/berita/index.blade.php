@@ -78,72 +78,144 @@
   </div>
 </div>
 @else
-<div class="d-flex align-items-start justify-content-between py-3 mb-2">
-  <h4 class="fw-bold">Berita</h4>
+<div class="d-flex align-items-start justify-content-between py-3">
+  <h4 class="fw-bold pb-2">
+    <span class="text-muted fw-light">Berita /</span>
+    <span id="kategori">Semua</span>
+  </h4>
 </div>
 <div class="row">
-  <div class="col-6 col-md-4">
+  <div class="col-12 col-md-4 mb-3">
     <div class="list-group">
       <a class="list-group-item list-group-item-action active" id="list-home-list" data-bs-toggle="list"
-        href="#list-home">Semua Berita</a>
+        href="#semua">Semua Berita</a>
       <a class="list-group-item list-group-item-action" id="list-profile-list" data-bs-toggle="list"
-        href="#list-profile">Beras</a>
+        href="#beras">Beras</a>
       <a class="list-group-item list-group-item-action" id="list-messages-list" data-bs-toggle="list"
-        href="#list-messages">Cabai</a>
+        href="#cabai">Cabai</a>
       <a class="list-group-item list-group-item-action" id="list-settings-list" data-bs-toggle="list"
-        href="#list-settings">Jagung</a>
+        href="#jagung">Jagung</a>
       <a class="list-group-item list-group-item-action" id="list-settings-list" data-bs-toggle="list"
-        href="#list-settings">Padi</a>
+        href="#padi">Padi</a>
     </div>
   </div>
-  <div class="col-6 col-md-8">
-    <div class="card mb-3">
-      <div class="row g-0">
-        <div class="col-md-4">
-          <img class="card-img card-img-left" src="{{ asset('sneat/assets/img/elements/12.jpg') }}" alt="Card image" />
+  <div class="col-12 col-md-8">
+    <div class="tab-content p-0">
+      <div class="tab-pane fade show active" id="semua">
+        <div class="card mb-3">
+          <div class="row g-0">
+            <div class="col-md-4">
+              <img class="card-img card-img-left" src="{{ asset('sneat/assets/img/elements/12.jpg') }}"
+                alt="Card image" />
+            </div>
+            <div class="col-md-8">
+              <div class="card-body">
+                <h5 class="card-title">Semua Berita</h5>
+                <p class="card-text">
+                  This is a wider card with supporting text below as a natural lead-in to additional content.
+                  This content is a little bit longer.
+                </p>
+                <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p>
+              </div>
+            </div>
+          </div>
         </div>
-        <div class="col-md-8">
-          <div class="card-body">
-            <h5 class="card-title">Card title</h5>
-            <p class="card-text">
-              This is a wider card with supporting text below as a natural lead-in to additional content.
-              This content is a little bit longer.
-            </p>
-            <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p>
+        <div class="card mb-3">
+          <div class="row g-0">
+            <div class="col-md-4">
+              <img class="card-img card-img-left" src="{{ asset('sneat/assets/img/elements/12.jpg') }}"
+                alt="Card image" />
+            </div>
+            <div class="col-md-8">
+              <div class="card-body">
+                <h5 class="card-title">Semua Berita</h5>
+                <p class="card-text">
+                  This is a wider card with supporting text below as a natural lead-in to additional content.
+                  This content is a little bit longer.
+                </p>
+                <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p>
+              </div>
+            </div>
           </div>
         </div>
       </div>
-    </div>
-    <div class="card mb-3">
-      <div class="row g-0">
-        <div class="col-md-4">
-          <img class="card-img card-img-left" src="{{ asset('sneat/assets/img/elements/12.jpg') }}" alt="Card image" />
-        </div>
-        <div class="col-md-8">
-          <div class="card-body">
-            <h5 class="card-title">Card title</h5>
-            <p class="card-text">
-              This is a wider card with supporting text below as a natural lead-in to additional content.
-              This content is a little bit longer.
-            </p>
-            <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p>
+      <div class="tab-pane fade" id="beras">
+        <div class="card mb-3">
+          <div class="row g-0">
+            <div class="col-md-4">
+              <img class="card-img card-img-left" src="{{ asset('sneat/assets/img/elements/12.jpg') }}"
+                alt="Card image" />
+            </div>
+            <div class="col-md-8">
+              <div class="card-body">
+                <h5 class="card-title">Berita Beras</h5>
+                <p class="card-text">
+                  This is a wider card with supporting text below as a natural lead-in to additional content.
+                  This content is a little bit longer.
+                </p>
+                <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p>
+              </div>
+            </div>
           </div>
         </div>
       </div>
-    </div>
-    <div class="card mb-3">
-      <div class="row g-0">
-        <div class="col-md-4">
-          <img class="card-img card-img-left" src="{{ asset('sneat/assets/img/elements/12.jpg') }}" alt="Card image" />
+      <div class="tab-pane fade" id="cabai">
+        <div class="card mb-3">
+          <div class="row g-0">
+            <div class="col-md-4">
+              <img class="card-img card-img-left" src="{{ asset('sneat/assets/img/elements/12.jpg') }}"
+                alt="Card image" />
+            </div>
+            <div class="col-md-8">
+              <div class="card-body">
+                <h5 class="card-title">Berita Cabai</h5>
+                <p class="card-text">
+                  This is a wider card with supporting text below as a natural lead-in to additional content.
+                  This content is a little bit longer.
+                </p>
+                <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p>
+              </div>
+            </div>
+          </div>
         </div>
-        <div class="col-md-8">
-          <div class="card-body">
-            <h5 class="card-title">Card title</h5>
-            <p class="card-text">
-              This is a wider card with supporting text below as a natural lead-in to additional content.
-              This content is a little bit longer.
-            </p>
-            <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p>
+      </div>
+      <div class="tab-pane fade" id="jagung">
+        <div class="card mb-3">
+          <div class="row g-0">
+            <div class="col-md-4">
+              <img class="card-img card-img-left" src="{{ asset('sneat/assets/img/elements/12.jpg') }}"
+                alt="Card image" />
+            </div>
+            <div class="col-md-8">
+              <div class="card-body">
+                <h5 class="card-title">Berita Jagung</h5>
+                <p class="card-text">
+                  This is a wider card with supporting text below as a natural lead-in to additional content.
+                  This content is a little bit longer.
+                </p>
+                <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="tab-pane fade" id="padi">
+        <div class="card mb-3">
+          <div class="row g-0">
+            <div class="col-md-4">
+              <img class="card-img card-img-left" src="{{ asset('sneat/assets/img/elements/12.jpg') }}"
+                alt="Card image" />
+            </div>
+            <div class="col-md-8">
+              <div class="card-body">
+                <h5 class="card-title">Berita Padi</h5>
+                <p class="card-text">
+                  This is a wider card with supporting text below as a natural lead-in to additional content.
+                  This content is a little bit longer.
+                </p>
+                <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p>
+              </div>
+            </div>
           </div>
         </div>
       </div>

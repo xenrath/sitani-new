@@ -35,7 +35,7 @@
         </button>
         <ul class="dropdown-menu dropdown-menu-start dropdown-menu-lg-end">
           <li>
-            <a class="dropdown-item" href="{{ url('profile') }}">
+            <a class="dropdown-item" href="{{ url('profile/1') }}">
               <i class="bx bx-user me-2"></i>
               <span class="align-middle">Profile Saya</span>
             </a>

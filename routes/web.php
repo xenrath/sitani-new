@@ -24,5 +24,7 @@ Route::get('/', [HomeController::class, 'index']);
 Route::get('dashboard', [HomeController::class, 'dashboard'])->middleware('admin');
 
 Route::resource('user', UserController::class);
+Route::get('profile/{id}', [UserController::class, 'profile']);
+
 Route::resource('produk', ProdukController::class);
 Route::resource('berita', BeritaController::class);

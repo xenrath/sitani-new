@@ -3,21 +3,14 @@
 @section('title', 'Produk')
 
 @section('content')
-<div class="d-flex align-items-start justify-content-between py-3">
-  @if (auth()->user()->isPetani())
-  <h4 class="fw-bold pb-2">Produk Saya</h4>
-  <a href="{{ url('produk/create') }}" class="btn btn-primary">
-    <span class="d-none d-sm-block">Tambah Produk</span>
-    <i class="tf-icons bx bx-plus d-block d-sm-none"></i>
-  </a>
-  @else
-  <h4 class="fw-bold pb-2">
+<div class="d-flex align-items-start justify-content-between py-3 mb-3">
+  <h4 class="fw-bold">
     <span class="text-muted fw-light">Produk /</span>
     <span id="kategori">Semua</span>
   </h4>
   <div class="btn-group">
     <button type="button" class="btn btn-primary dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
-      <i class="bx bx-menu"></i>&nbsp;
+      <i class="bx bx-menu"></i>&nbsp; 
       <span class="d-none d-md-inline">Kategori Produk</span>
     </button>
     <ul class="dropdown-menu dropdown-menu-end">
@@ -32,7 +25,6 @@
       </li>
     </ul>
   </div>
-  @endif
 </div>
 <div class="row row-cols-2 row-cols-md-4 g-4">
   <div class="col">
@@ -43,11 +35,7 @@
         <p class="card-text">
           Deskripsi
         </p>
-        @if (auth()->user()->isPetani())
-        <a href="{{ url('produk/1/edit') }}" class="btn btn-outline-secondary">Ubah Detail</a>
-        @else
         <a href="{{ url('produk/1') }}" class="btn btn-outline-primary">Lihat Detail</a>
-        @endif
       </div>
     </div>
   </div>
@@ -59,11 +47,7 @@
         <p class="card-text">
           Deskripsi
         </p>
-        @if (auth()->user()->isPetani())
-        <a href="{{ url('produk/1/edit') }}" class="btn btn-outline-secondary">Ubah Detail</a>
-        @else
-        <a href="{{ url('produk/1') }}" class="btn btn-outline-primary">Lihat Detail</a>
-        @endif
+        <a href="" class="btn btn-outline-primary">Lihat Detail</a>
       </div>
     </div>
   </div>
@@ -75,11 +59,7 @@
         <p class="card-text">
           Deskripsi
         </p>
-        @if (auth()->user()->isPetani())
-        <a href="{{ url('produk/1/edit') }}" class="btn btn-outline-secondary">Ubah Detail</a>
-        @else
-        <a href="{{ url('produk/1') }}" class="btn btn-outline-primary">Lihat Detail</a>
-        @endif
+        <a href="" class="btn btn-outline-primary">Lihat Detail</a>
       </div>
     </div>
   </div>
@@ -91,11 +71,7 @@
         <p class="card-text">
           Deskripsi
         </p>
-        @if (auth()->user()->isPetani())
-        <a href="{{ url('produk/1/edit') }}" class="btn btn-outline-secondary">Ubah Detail</a>
-        @else
-        <a href="{{ url('produk/1') }}" class="btn btn-outline-primary">Lihat Detail</a>
-        @endif
+        <a href="" class="btn btn-outline-primary">Lihat Detail</a>
       </div>
     </div>
   </div>
@@ -119,11 +95,7 @@
         <p class="card-text">
           Deskripsi
         </p>
-        @if (auth()->user()->isPetani())
-        <a href="{{ url('produk/1/edit') }}" class="btn btn-outline-secondary">Ubah Detail</a>
-        @else
-        <a href="{{ url('produk/1') }}" class="btn btn-outline-primary">Lihat Detail</a>
-        @endif
+        <a href="" class="btn btn-outline-primary">Lihat Detail</a>
       </div>
     </div>
   </div>
