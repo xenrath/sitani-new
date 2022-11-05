@@ -76,22 +76,23 @@
         <div data-i18n="harga-pangan">Harga Pangan</div>
       </a>
       <ul class="menu-sub">
-        <li class="menu-item">
-          <a href="layouts-without-menu.html" class="menu-link">
-            <div data-i18n="kategori-harga-pangan">Kategori Harga Pangan</div>
-          </a>
-        </li>
-        <li class="menu-item">
-          <a href="layouts-without-navbar.html" class="menu-link">
-            <div data-i18n="data-harga-pangan">Data Harga Pangan</div>
+        <li class="menu-item{{ request()->is('hargapangan*') ? 'active' : '' }}">
+          <a href="{{url('hargapangan') }}" class="menu-link">
+            <div data-i18n="data-harga-pangan">Harga Pangan</div>
           </a>
         </li>
       </ul>
     </li>
-    <li class="menu-item {{ request()->is('user*') ? 'active' : '' }}">
-      <a href="{{ url('user') }}" class="menu-link">
+    <li class="menu-item {{ request()->is('kategoriproduk*') ? 'active' : '' }}">
+      <a href="{{ url('kategoriproduk') }}" class="menu-link">
         <i class="menu-icon tf-icons bx bx-category"></i>
         <div data-i18n="kategori-produk">Kategori Produk</div>
+      </a>
+    </li>
+      <li class="menu-item {{ request()->is('kategoriharga*') ? 'active' : '' }}">
+      <a href="{{ url('kategoriharga') }}" class="menu-link">
+        <i class="menu-icon tf-icons bx bx-category"></i>
+        <div data-i18n="kategori-harga-pangan">Kategori Harga Pangan</div>
       </a>
     </li>
   </ul>

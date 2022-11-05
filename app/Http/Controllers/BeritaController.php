@@ -2,83 +2,74 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Berita;
 use Illuminate\Http\Request;
+use Carbon\Carbon;
 
 class BeritaController extends Controller
 {
-    public function __construct()
-    {
-        $this->middleware('auth');
-    }
-    
     public function index()
     {
-        return view('berita.index');
+        $beritas = Berita::paginate(3);
+        return view('berita.index', compact('beritas'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function create()
     {
         return view('berita.create');
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'judul' => 'required',
+            'isi' => 'required',
+        ], [
+            'judul.required' => 'Pilih judul terlebih dahulu!',
+            'isi' => 'Masukkan isi berita !'
+        ]);
+        $now = Carbon::now()->format('d-m-y');
+
+        Berita::create(array_merge($request->all(), [
+            'date' => $now
+        ]));
+        return redirect('berita')->with('status', 'Berhasil menambahkan berita');
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function show($id)
     {
-        return view('berita.show');
+        $berita = Berita::where('id', $id)->first();
+        return view('berita.show', compact('berita'));
     }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function edit($id)
     {
-        //
+        $berita = Berita::where('id', $id)->first();
+        return view('berita.edit', compact('berita'));
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function update(Request $request, $id)
     {
-        //
+        $request->validate([
+            'judul' => 'required',
+            'isi' => 'required',
+        ], [
+            'judul.required' => 'judul tidak boleh kosong!',
+            'isi.required' => 'isi tidak boleh kosong!',
+        ]);
+
+        Berita::where('id', $id)->update([
+            'judul' => $request->judul,
+            'isi' => $request->isi,
+        ]);
+
+        return redirect('berita')->with('status', 'Berhasil mengubah Kategori berita');
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function destroy($id)
     {
-        //
+        $berita = Berita::find($id);
+        $berita->delete();
+        return redirect('berita')->with('status', 'Berhasil menghapus Berita');
     }
 }
+

@@ -29,16 +29,19 @@
             <input type="text" class="form-control" name="nama" id="nama" placeholder="Masukan nama produk" />
           </div>
         </div>
-        <div class="col-md-6">
+          <div class="col-md-6">
           <div class="form-group mb-3">
             <label class="form-label" for="kategori">Kategori</label>
-            <select class="form-control" id="kategori" name="kategori">
-              <option value="">- Pilih Kategori -</option>
-              <option value="biasa" {{ old('kategori')=='biasa' ? 'selected' : null }}>Produk Biasa</option>
-              <option value="tebasan" {{ old('kategori')=='tebasan' ? 'selected' : null }}>Produk Tebasan</option>
+            <select class="form-control @error('kategori_id') is-invalid @enderror" id="kategori_id"
+          name="kategori_id">
+          <option value="">- Pilih -</option>
+          @foreach ($kategoriproduks as $k)
+              <option value="{{ $k->id }}"
+                  {{ old('kategori_id') == $k->id ? 'selected' : null }}>{{ $k->nama }}</option>
+          @endforeach
             </select>
-            @error('kategori')
-            <div class="invalid-feedback">{{ $message }}</div>
+            @error('role_id')
+                <div class="invalid-feedback">{{ $message }}</div>
             @enderror
           </div>
         </div>
@@ -66,8 +69,8 @@
         </div>
         <div class="col-md-6">
           <div class="form-group">
-            <label class="form-label" for="isi">Isi</label>
-            <textarea class="form-control" id="isi" rows="3" placeholder="Masukan isi produk"></textarea>
+            <label class="form-label" for="deskripsi">Isi</label>
+            <textarea class="form-control" name="deskripsi" id="deskripsi" rows="3" placeholder="Masukan isi produk"></textarea>
           </div>
         </div>
       </div>

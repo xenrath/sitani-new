@@ -5,12 +5,9 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Berita extends Model
+class Alamat extends Model
 {
     use HasFactory;
-    protected $fillable = [
-        'judul',
-        'isi',
-        'date'
-    ];
+    protected $table = 'alamats';
+    protected $fillable = ['user_id', 'kota_id', 'detail'];
 }

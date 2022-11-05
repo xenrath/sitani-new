@@ -2,8 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Produk;
+use App\Models\KategoriHarga;
+use App\Models\Kategoriproduk;
 use Illuminate\Http\Request;
+use App\Models\Produk;
+use Illuminate\Support\Facades\Storage;
 
 class ProdukController extends Controller
 {
@@ -25,7 +28,8 @@ class ProdukController extends Controller
      */
     public function create()
     {
-        return view('produk.create');
+        $kategoriproduks = Kategoriproduk::all();
+        return view('produk.create', compact('kategoriproduks'));
     }
 
     /**
@@ -36,7 +40,37 @@ class ProdukController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'nama' => 'required',
+            'harga' => 'required',
+            'kategori_id' => 'required',
+            'stok' => 'required',
+            'deskripsi' => 'required',
+            'gambar' => 'required|nullable|image|mimes:jpeg,jpg,png|max:2048',
+        ], [
+            'nama.required' => 'Masukan nama!',
+            'harga.required' => 'Masukkan harga !',
+            'gambar.required' => 'Masukkan gambar !',
+            'kategori_id.required' => 'Pilih kategori !',
+            'stok.required' => 'Masukkan stok !',
+            'deskripsi.required' => 'Masukkan deskripsi !',
+        ]);
+
+        $fileName = '';
+        if ($request->file('gambar')->isValid()) {
+            $gambar = $request->file('gambar');
+            $extention = $gambar->getClientOriginalExtension();
+            $fileName = "produk/" . date('ymdHis') . "." . $extention;
+            $upload_path = 'public/storage/uploads/produk';
+            $request->file('gambar')->move($upload_path, $fileName);
+            $input['gambar'] = $fileName;
+        }
+        Produk::create(array_merge($request->all(), [
+            'gambar' => $fileName,
+            'user_id' => ''
+        ]));
+
+        return redirect('produk')->with('status', 'Berhasil menambahkan produk');
     }
 
     /**
@@ -45,20 +79,20 @@ class ProdukController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show(Produk $produk)
     {
-        return view('produk.show');
+        return view('produk.show', compact('produk'));
     }
-
     /**
      * Show the form for editing the specified resource.
      *
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(Produk $produk)
     {
-        return view('produk.edit');
+        $kategoriproduks = Kategoriproduk::all();
+        return view('produk.edit', compact('produk','kategoriproduks'));
     }
 
     /**
@@ -68,9 +102,41 @@ class ProdukController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, Produk $produk)
     {
-        //
+        $request->validate([
+            'nama' => 'required',
+            'harga' => 'required',
+            'kategori_id' => 'required',
+            'stok' => 'required',
+            'deskripsi' => 'required',
+            'gambar' => 'sometimes|nullable|image|mimes:jpeg,jpg,png|max:2048',
+        ], [
+            'nama.required' => 'Masukan nama!',
+            'harga.required' => 'Masukkan harga !',
+            'kategori_id.required' => 'Pilih kategori !',
+            'stok.required' => 'Masukkan stok !',
+            'deskripsi.required' => 'Masukkan deskripsi !',
+        ]);
+
+        if ($request->gambar) {
+            Storage::disk('local')->delete('public/uploads/' . $produk->gambar);
+            $gambar = str_replace(' ', '', $request->gambar->getClientOriginalName());
+            $namaGambar = "produk/" . date('YmdHis') . "." . $gambar;
+            $request->gambar->storeAs('public/uploads', $namaGambar);
+        } else {
+            $namaGambar = $produk->gambar;
+        }
+        Produk::where('id', $produk->id)
+            ->update([
+                'nama' => $request->nama,
+                'harga' => $request->harga,
+                'kategori_id' => $request->kategori_id,
+                'stok' => $request->stok,
+                'deskripsi' => $request->deskripsi,
+                'gambar' => $namaGambar,
+            ]);
+        return redirect('produk')->with('status', 'Berhasil mengubah produk');
     }
 
     /**
@@ -81,6 +147,8 @@ class ProdukController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $produk = Produk::find($id);
+        $produk->delete();
+        return redirect('produk')->with('status', 'Berhasil menghapus produk');
     }
 }

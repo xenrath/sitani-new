@@ -18,19 +18,41 @@ class UserSeeder extends Seeder
             [
                 'nama' => 'Admin',
                 'telp' => 'admin',
+                'alamat' => 'Tegal',
                 'password' => bcrypt('admin'),
+                'gambar' => 'user/admin.jpeg',
                 'role' => 'admin'
             ],
             [
                 'nama' => 'Petani',
                 'telp' => 'petani',
+                'alamat' => 'Tegal',
                 'password' => bcrypt('petani'),
+                'gambar' => 'user/petani.jpeg',
+                'role' => 'petani'
+            ],
+            [
+                'nama' => 'Petani2',
+                'telp' => '08978556760',
+                'alamat' => 'Tegal',
+                'password' => bcrypt('petani2'),
+                'gambar' => 'user/petani2.jpeg',
+                'role' => 'petani'
+            ],
+            [
+                'nama' => 'Petani3',
+                'telp' => '08978556767',
+                'alamat' => 'Tegal',
+                'password' => bcrypt('petani3'),
+                'gambar' => 'user/petani.jpeg',
                 'role' => 'petani'
             ],
             [
                 'nama' => 'Tengkulak',
                 'telp' => 'tengkulak',
+                'alamat' => 'Tegal',
                 'password' => bcrypt('tengkulak'),
+                'gambar' => 'user/tengkulak.jpeg',
                 'role' => 'tengkulak'
             ],
         ];

@@ -15,41 +15,46 @@
     <h5 class="mb-0">Tambah Produk</h5>
   </div>
   <hr class="my-1" />
-  <form action="{{ url('produk') }}" method="POST" enctype="multipart/form-data">
+  <form action="{{ url('produk/' . $produk->id) }}" method="post" enctype="multipart/form-data">
     @csrf
-    <div class="card-body">
+    @method('put')
+     <div class="card-body">
       <div class="row">
         <div class="col-md-6">
           <div class="form-group mb-3">
             <label class="form-label" for="nama">Nama Produk</label>
-            <input type="text" class="form-control" name="nama" id="nama" placeholder="Masukan nama produk" />
+            <input type="text" class="form-control" name="nama" id="nama" value="{{ old('nama', $produk->nama) }}" placeholder="Masukan nama produk" />
           </div>
         </div>
         <div class="col-md-6">
           <div class="form-group mb-3">
             <label class="form-label" for="kategori">Kategori</label>
-            <select class="form-control" id="kategori" name="kategori">
-              <option value="">- Pilih Kategori -</option>
-              <option value="biasa" {{ old('kategori')=='biasa' ? 'selected' : null }}>Produk Biasa</option>
-              <option value="tebasan" {{ old('kategori')=='tebasan' ? 'selected' : null }}>Produk Tebasan</option>
+            <select class="form-control @error('kategori_id') is-invalid @enderror" id="kategori_id"
+          name="kategori_id">
+          <option value="">- Pilih -</option>
+          @foreach ($kategoriproduks as $k)
+              <option value="{{ $k->id }}"
+                  {{ old('kategori_id') == $k->id ? 'selected' : null }}>{{ $k->nama }}</option>
+          @endforeach
             </select>
-            @error('kategori')
-            <div class="invalid-feedback">{{ $message }}</div>
+            @error('role_id')
+                <div class="invalid-feedback">{{ $message }}</div>
             @enderror
           </div>
         </div>
       </div>
+
       <div class="row">
         <div class="col-md-6">
           <div class="form-group mb-3">
             <label class="form-label" for="harga">Harga</label>
-            <input type="number" class="form-control" name="harga" id="harga" placeholder="Masukan harga produk" />
+            <input type="number" class="form-control" name="harga" id="harga" value="{{ old('harga', $produk->harga) }}" placeholder="Masukan harga produk" />
           </div>
         </div>
         <div class="col-md-6">
           <div class="form-group mb-3">
             <label class="form-label" for="stok">Stok</label>
-            <input type="number" class="form-control" name="stok" id="stok" placeholder="Masukan stok produk" />
+            <input type="number" class="form-control" name="stok" id="stok" value="{{ old('stok', $produk->stok) }}" placeholder="Masukan stok produk" />
           </div>
         </div>
       </div>
@@ -57,17 +62,19 @@
         <div class="col-md-6">
           <div class="form-group mb-3">
             <label class="form-label" for="gambar">Gambar</label>
-            <input type="file" class="form-control" name="gambar" id="gambar" />
+            <input type="file" class="form-control" name="gambar" value="{{ old('gambar', $produk->gambar) }}id="gambar" />
           </div>
         </div>
         <div class="col-md-6">
           <div class="form-group">
-            <label class="form-label" for="isi">Isi</label>
-            <textarea class="form-control" id="isi" rows="3" placeholder="Masukan isi produk"></textarea>
+            <label class="form-label" for="deskripsi">Deskripsi</label>
+            <textarea class="form-control" name="deskripsi" id="deskripsi"  rows="3" placeholder="Masukan isi produk">{{ old('deskripsi', $produk->deskripsi) }}</textarea>
           </div>
         </div>
       </div>
     </div>
+
+
     <div class="card-footer float-end">
       <button type="reset" class="btn btn-secondary me-1">
         <span class="d-none d-sm-block">Reset</span>

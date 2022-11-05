@@ -27,7 +27,9 @@
   </div>
   <hr class="my-1" />
   <div class="card-body">
-    <form id="formAccountSettings" method="POST" onsubmit="return false">
+   <form action="#" method="post" enctype="multipart/form-data">
+      @csrf
+      @method('put')
       <div class="row">
         <div class="mb-3 col-md-6">
           <div class="form-group">
@@ -37,10 +39,10 @@
         </div>
         <div class="mb-3 col-md-6">
           <div class="form-group">
-            <label class="form-label" for="phone">No. Telepon</label>
+            <label class="form-label" for="tlp">No. Telepon</label>
             <div class="input-group input-group-merge">
               <span class="input-group-text">+62</span>
-              <input type="text" id="phone" name="phone" class="form-control" value="" />
+              <input type="number" id="tlp" name="tlp" class="form-control"  value="#" />
             </div>
           </div>
         </div>
