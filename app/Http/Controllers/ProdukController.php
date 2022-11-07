@@ -10,34 +10,23 @@ use Illuminate\Support\Facades\Storage;
 
 class ProdukController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
+
     public function index()
     {
         $produks = Produk::get();
         return view('produk.index', compact('produks'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function create()
     {
         $kategoriproduks = Kategoriproduk::all();
         return view('produk.create', compact('kategoriproduks'));
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
     public function store(Request $request)
     {
         $request->validate([
@@ -139,12 +128,6 @@ class ProdukController extends Controller
         return redirect('produk')->with('status', 'Berhasil mengubah produk');
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function destroy($id)
     {
         $produk = Produk::find($id);
