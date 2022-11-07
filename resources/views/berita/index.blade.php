@@ -87,15 +87,15 @@
 <div class="row">
   <div class="col-12 col-md-4 mb-3">
     <div class="list-group">
-      <a class="list-group-item list-group-item-action active" id="list-home-list" data-bs-toggle="list"
+      <a class="list-group-item list-group-item-action active" data-bs-toggle="list"
         href="#semua">Semua Berita</a>
-      <a class="list-group-item list-group-item-action" id="list-profile-list" data-bs-toggle="list"
+      <a class="list-group-item list-group-item-action" data-bs-toggle="list"
         href="#beras">Beras</a>
-      <a class="list-group-item list-group-item-action" id="list-messages-list" data-bs-toggle="list"
+      <a class="list-group-item list-group-item-action" data-bs-toggle="list"
         href="#cabai">Cabai</a>
-      <a class="list-group-item list-group-item-action" id="list-settings-list" data-bs-toggle="list"
+      <a class="list-group-item list-group-item-action" data-bs-toggle="list"
         href="#jagung">Jagung</a>
-      <a class="list-group-item list-group-item-action" id="list-settings-list" data-bs-toggle="list"
+      <a class="list-group-item list-group-item-action" data-bs-toggle="list"
         href="#padi">Padi</a>
     </div>
   </div>
