@@ -2,18 +2,19 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\User;
+use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class UserController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
+   
     public function index()
     {
-        //
+        $data = User::paginate(3);
+        return view('dashboard', compact('data'));
+
     }
 
     /**
@@ -56,7 +57,8 @@ class UserController extends Controller
      */
     public function edit($id)
     {
-        //
+        $user = User::where('id', $id)->first();
+        return view('user.profil', compact('user'));
     }
 
     /**
@@ -66,9 +68,31 @@ class UserController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, User $user)
     {
-        //
+        $request->validate([
+            'nama' => 'required',
+            'tlp' => 'required',
+            'alamat' => 'required',
+            'gambar' => 'sometimes|nullable|image|mimes:jpeg,jpg,png|max:2048',
+        ]);
+
+        if ($request->gambar) {
+            Storage::disk('local')->delete('public/uploads/' . $user->gambar);
+            $gambar = str_replace(' ', '', $request->gambar->getClientOriginalName());
+            $namaGambar = "user/" . date('YmdHis') . "." . $gambar;
+            $request->gambar->storeAs('public/uploads', $namaGambar);
+        } else {
+            $namaGambar = $user->gambar;
+        }
+        User::where('id', $user->id)
+            ->update([
+                'nama' => $request->nama,
+                'tlp' => $request->tlp,
+                'alamat' => $request->alamat,
+                'gambar' => $namaGambar,
+            ]);
+        return redirect('user')->with('status', 'Berhasil mengubah User');
     }
 
     /**

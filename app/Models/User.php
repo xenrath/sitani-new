@@ -21,6 +21,7 @@ class User extends Authenticatable
         'nama',
         'telp',
         'password',
+        'gambar',
         'role',
     ];
 
@@ -65,5 +66,9 @@ class User extends Authenticatable
             return true;
         }
         return false;
+    }
+    public function produk()
+    {
+        return $this->hasMany(Produk::class);
     }
 }

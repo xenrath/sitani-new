@@ -35,13 +35,14 @@
   @endif
 </div>
 <div class="row row-cols-2 row-cols-md-4 g-4">
+@foreach ($produks as $produk)
   <div class="col">
     <div class="card h-100">
-      <img class="card-img-top" src="{{ asset('sneat/assets/img/elements/2.jpg') }}" alt="Card image cap" />
+      <img class="card-img-top" src="{{ asset('storage/uploads/'.$produk->gambar) }}" alt="Card image cap" />
       <div class="card-body">
-        <h5 class="card-title">Nama Produk</h5>
+        <h5 class="card-title">{{ $produk->nama }}</h5>
         <p class="card-text">
-          Deskripsi
+          {{ $produk->deskripsi }}
         </p>
         @if (auth()->user()->isPetani())
         <a href="{{ url('produk/1/edit') }}" class="btn btn-outline-secondary">Ubah Detail</a>
@@ -51,81 +52,6 @@
       </div>
     </div>
   </div>
-  <div class="col">
-    <div class="card h-100">
-      <img class="card-img-top" src="{{ asset('sneat/assets/img/elements/13.jpg') }}" alt="Card image cap" />
-      <div class="card-body">
-        <h5 class="card-title">Nama Produk</h5>
-        <p class="card-text">
-          Deskripsi
-        </p>
-        @if (auth()->user()->isPetani())
-        <a href="{{ url('produk/1/edit') }}" class="btn btn-outline-secondary">Ubah Detail</a>
-        @else
-        <a href="{{ url('produk/1') }}" class="btn btn-outline-primary">Lihat Detail</a>
-        @endif
-      </div>
-    </div>
-  </div>
-  <div class="col">
-    <div class="card h-100">
-      <img class="card-img-top" src="{{ asset('sneat/assets/img/elements/4.jpg') }}" alt="Card image cap" />
-      <div class="card-body">
-        <h5 class="card-title">Nama Produk</h5>
-        <p class="card-text">
-          Deskripsi
-        </p>
-        @if (auth()->user()->isPetani())
-        <a href="{{ url('produk/1/edit') }}" class="btn btn-outline-secondary">Ubah Detail</a>
-        @else
-        <a href="{{ url('produk/1') }}" class="btn btn-outline-primary">Lihat Detail</a>
-        @endif
-      </div>
-    </div>
-  </div>
-  <div class="col">
-    <div class="card h-100">
-      <img class="card-img-top" src="{{ asset('sneat/assets/img/elements/18.jpg') }}" alt="Card image cap" />
-      <div class="card-body">
-        <h5 class="card-title">Nama Produk</h5>
-        <p class="card-text">
-          Deskripsi
-        </p>
-        @if (auth()->user()->isPetani())
-        <a href="{{ url('produk/1/edit') }}" class="btn btn-outline-secondary">Ubah Detail</a>
-        @else
-        <a href="{{ url('produk/1') }}" class="btn btn-outline-primary">Lihat Detail</a>
-        @endif
-      </div>
-    </div>
-  </div>
-  <div class="col">
-    <div class="card h-100">
-      <img class="card-img-top" src="{{ asset('sneat/assets/img/elements/19.jpg') }}" alt="Card image cap" />
-      <div class="card-body">
-        <h5 class="card-title">Card title</h5>
-        <p class="card-text">
-          This is a longer card with supporting text below as a natural lead-in to additional content.
-          This content is a little bit longer.
-        </p>
-      </div>
-    </div>
-  </div>
-  <div class="col">
-    <div class="card h-100">
-      <img class="card-img-top" src="{{ asset('sneat/assets/img/elements/20.jpg') }}" alt="Card image cap" />
-      <div class="card-body">
-        <h5 class="card-title">Nama Produk</h5>
-        <p class="card-text">
-          Deskripsi
-        </p>
-        @if (auth()->user()->isPetani())
-        <a href="{{ url('produk/1/edit') }}" class="btn btn-outline-secondary">Ubah Detail</a>
-        @else
-        <a href="{{ url('produk/1') }}" class="btn btn-outline-primary">Lihat Detail</a>
-        @endif
-      </div>
-    </div>
-  </div>
+  @endforeach
 </div>
 @endsection
