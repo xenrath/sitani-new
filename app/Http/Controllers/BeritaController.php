@@ -8,10 +8,34 @@ use Carbon\Carbon;
 
 class BeritaController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
+
     public function index()
     {
-        $beritas = Berita::paginate(3);
-        return view('berita.index', compact('beritas'));
+        if (auth()->user()->isAdmin()) {
+            $beritas = Berita::paginate(2);
+
+            return view('berita.index', compact('beritas'));
+        } else {
+            $semuas = Berita::get();
+            $berases = Berita::where('judul', 'like', '%beras%')
+                ->orWhere('isi', 'like', '%beras%')
+                ->get();
+            $cabais = Berita::where('judul', 'like', '%cabai%')
+                ->orWhere('isi', 'like', '%cabai%')
+                ->get();
+            $jagungs = Berita::where('judul', 'like', '%jagung%')
+                ->orWhere('isi', 'like', '%jagung%')
+                ->get();
+            $padis = Berita::where('judul', 'like', '%padi%')
+                ->orWhere('isi', 'like', '%padi%')
+                ->get();
+
+            return view('berita.index', compact('semuas', 'berases', 'cabais', 'jagungs', 'padis'));
+        }
     }
 
     public function create()
@@ -41,6 +65,7 @@ class BeritaController extends Controller
         $berita = Berita::where('id', $id)->first();
         return view('berita.show', compact('berita'));
     }
+
     public function edit($id)
     {
         $berita = Berita::where('id', $id)->first();
@@ -62,7 +87,7 @@ class BeritaController extends Controller
             'isi' => $request->isi,
         ]);
 
-        return redirect('berita')->with('status', 'Berhasil mengubah Kategori berita');
+        return redirect('berita')->with('status', 'Berhasil memperbarui berita');
     }
 
     public function destroy($id)
@@ -72,4 +97,3 @@ class BeritaController extends Controller
         return redirect('berita')->with('status', 'Berhasil menghapus Berita');
     }
 }
-

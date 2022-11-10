@@ -19,7 +19,6 @@ class CreateProduksTable extends Migration
             $table->unsignedInteger('user_id');
             $table->foreign('user_id')->references('id')->on('users');
             $table->string('harga');
-            $table->string('gambar');
             $table->unsignedInteger('kategori_id');
             $table->foreign('kategori_id')->references('id')->on('kategoriproduks');
             $table->string('stok');

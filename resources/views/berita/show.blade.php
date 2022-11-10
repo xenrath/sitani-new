@@ -5,8 +5,8 @@
 @section('content')
 <h4 class="fw-bold py-3 mb-4">
   <span class="text-muted fw-light">
-    <a href="{{ url('berita') }}">Detail Berita</a>
-  </span> Berita
+    <a href="{{ url('berita') }}">Berita</a> /
+  </span> Detail Berita
 </h4>
 <!-- Basic Layout -->
 <div class="row">
@@ -38,15 +38,7 @@
             <h5>Tanggal</h5>
           </label>
           <div class="col-sm-8">
-            <p>{{ $berita->date }}</p>
-          </div>
-        </div>
-        <div class="row mb-2">
-          <label class="col-sm-4"></label>
-          <div class="col-sm-8">
-            <p>
-              <small class="text-muted">Last updated 3 mins ago</small>
-            </p>
+            <p>{{ date('d-m-Y', strtotime($berita->date)) }}</p>
           </div>
         </div>
       </div>

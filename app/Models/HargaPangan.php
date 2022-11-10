@@ -17,4 +17,10 @@ class HargaPangan extends Model
     {
         return $this->belongsTo(KategoriHarga::class, "kategori_id", "id");
     }
+
+    public function rupiah($harga)
+    {
+        $hasil = number_format($harga, 0, ',', '.');
+        return $hasil;
+    }
 }

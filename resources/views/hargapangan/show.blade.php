@@ -1,11 +1,11 @@
 @extends('layouts.app')
 
-@section('title', 'Detail Kategori Harga')
+@section('title', 'Detail Harga Pangan')
 
 @section('content')
 <h4 class="fw-bold py-3 mb-4">
   <span class="text-muted fw-light">
-    <a href="{{ url('hargapangan') }}">Kategori Harga</a>
+    <a href="{{ url('hargapangan') }}">Harga Pangan</a> /
   </span> Detail
 </h4>
 <!-- Basic Layout -->
@@ -22,7 +22,7 @@
             <h5>Kategori</h5>
           </label>
           <div class="col-sm-8">
-            <p>{{ $hargapangan->kategori_id }}</p>
+            <p>{{ $hargapangan->kategoriharga->kategori }}</p>
           </div>
         </div>
         <div class="row mb-2">
@@ -30,7 +30,7 @@
             <h5>Nama Pangan</h5>
           </label>
           <div class="col-sm-8">
-              <p>{{ $hargapangan->namapangan }}</p>
+            <p>{{ $hargapangan->namapangan }}</p>
           </div>
         </div>
         <div class="row mb-2">
@@ -38,7 +38,7 @@
             <h5>Harga</h5>
           </label>
           <div class="col-sm-8">
-              <p>{{ $hargapangan->harga }}</p>
+            <p>@rupiah($hargapangan->harga)</p>
           </div>
         </div>
         <div class="row mb-2">
@@ -46,15 +46,7 @@
             <h5>Tanggal</h5>
           </label>
           <div class="col-sm-8">
-              <p>{{ $hargapangan->tanggal }}</p>
-          </div>
-        </div>
-        <div class="row mb-2">
-          <label class="col-sm-4"></label>
-          <div class="col-sm-8">
-            <p>
-              <small class="text-muted">Last updated 3 mins ago</small>
-            </p>
+            <p>{{ date('d-m-Y', strtotime($hargapangan->tanggal)) }}</p>
           </div>
         </div>
       </div>

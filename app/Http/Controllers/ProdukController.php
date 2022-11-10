@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\GambarProduk;
 use App\Models\KategoriHarga;
 use App\Models\Kategoriproduk;
 use Illuminate\Http\Request;
@@ -17,7 +18,10 @@ class ProdukController extends Controller
 
     public function index()
     {
-        $produks = Produk::get();
+        $produks = Produk::with('gambar')->get();
+
+        // return response($produks);
+
         return view('produk.index', compact('produks'));
     }
 
@@ -35,7 +39,6 @@ class ProdukController extends Controller
             'kategori_id' => 'required',
             'stok' => 'required',
             'deskripsi' => 'required',
-            'gambar' => 'required|nullable|image|mimes:jpeg,jpg,png|max:2048',
         ], [
             'nama.required' => 'Masukan nama!',
             'harga.required' => 'Masukkan harga !',
@@ -45,19 +48,28 @@ class ProdukController extends Controller
             'deskripsi.required' => 'Masukkan deskripsi !',
         ]);
 
-        $fileName = '';
-        if ($request->file('gambar')->isValid()) {
-            $gambar = $request->file('gambar');
-            $extention = $gambar->getClientOriginalExtension();
-            $fileName = "produk/" . date('ymdHis') . "." . $extention;
-            $upload_path = 'public/storage/uploads/produk';
-            $request->file('gambar')->move($upload_path, $fileName);
-            $input['gambar'] = $fileName;
+        if ($request->harga < 0) {
+            return back()->with('error', 'Gagal! Masukan nominal harga dengan benar');
         }
-        Produk::create(array_merge($request->all(), [
-            'gambar' => $fileName,
-            'user_id' => ''
+
+        $produk = Produk::create(array_merge($request->all(), [
+            'user_id' => auth()->user()->id
         ]));
+
+        if ($request->has('gambars')) {
+            $gambars = $request->file('gambars');
+
+            foreach ($gambars as $gambar) {
+                $name = str_replace(' ', '', $gambar->getClientOriginalName());
+                $namagambar = 'produk/' . date('mYdHs') . rand(1, 10) . '_' . $name;
+                $gambar->storeAs('public/uploads', $namagambar);
+
+                GambarProduk::create([
+                    'produk_id' => $produk->id,
+                    'gambar' => $namagambar
+                ]);
+            }
+        }
 
         return redirect('produk')->with('status', 'Berhasil menambahkan produk');
     }
@@ -81,7 +93,9 @@ class ProdukController extends Controller
     public function edit(Produk $produk)
     {
         $kategoriproduks = Kategoriproduk::all();
-        return view('produk.edit', compact('produk','kategoriproduks'));
+        $gambarproduks = GambarProduk::where('produk_id', $produk->id)->get();
+
+        return view('produk.edit', compact('produk', 'kategoriproduks', 'gambarproduks'));
     }
 
     /**
@@ -99,7 +113,6 @@ class ProdukController extends Controller
             'kategori_id' => 'required',
             'stok' => 'required',
             'deskripsi' => 'required',
-            'gambar' => 'sometimes|nullable|image|mimes:jpeg,jpg,png|max:2048',
         ], [
             'nama.required' => 'Masukan nama!',
             'harga.required' => 'Masukkan harga !',
@@ -108,29 +121,47 @@ class ProdukController extends Controller
             'deskripsi.required' => 'Masukkan deskripsi !',
         ]);
 
-        if ($request->gambar) {
-            Storage::disk('local')->delete('public/uploads/' . $produk->gambar);
-            $gambar = str_replace(' ', '', $request->gambar->getClientOriginalName());
-            $namaGambar = "produk/" . date('YmdHis') . "." . $gambar;
-            $request->gambar->storeAs('public/uploads', $namaGambar);
-        } else {
-            $namaGambar = $produk->gambar;
+        if ($request->harga < 0) {
+            return back()->with('error', 'Gagal! Masukan nominal harga dengan benar');
         }
+
         Produk::where('id', $produk->id)
             ->update([
                 'nama' => $request->nama,
                 'harga' => $request->harga,
                 'kategori_id' => $request->kategori_id,
                 'stok' => $request->stok,
-                'deskripsi' => $request->deskripsi,
-                'gambar' => $namaGambar,
+                'deskripsi' => $request->deskripsi
             ]);
+
+        if ($request->has('gambars')) {
+            $gambars = $request->file('gambars');
+
+            foreach ($gambars as $gambar) {
+                $name = str_replace(' ', '', $gambar->getClientOriginalName());
+                $namagambar = 'produk/' . date('mYdHs') . rand(1, 10) . '_' . $name;
+                $gambar->storeAs('public/uploads', $namagambar);
+
+                GambarProduk::create([
+                    'produk_id' => $produk->id,
+                    'gambar' => $namagambar
+                ]);
+            }
+        }
+
         return redirect('produk')->with('status', 'Berhasil mengubah produk');
     }
 
     public function destroy($id)
     {
         $produk = Produk::find($id);
+        $gambarproduks = GambarProduk::where('produk_id', $produk->id)->get();
+
+        foreach ($gambarproduks as $gambarproduk) {
+            Storage::disk('local')->delete('public/uploads/' . $gambarproduk->gambar);
+            $gambarproduk->delete();
+        }
+        
         $produk->delete();
         return redirect('produk')->with('status', 'Berhasil menghapus produk');
     }

@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\BeritaController;
+use App\Http\Controllers\GambarProdukController;
 use App\Http\Controllers\HargaPanganController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\ProdukController;
@@ -30,6 +31,8 @@ Route::resource('user', UserController::class);
 Route::get('profile/{id}', [UserController::class, 'profile']);
 
 Route::resource('produk', ProdukController::class);
+Route::get('hapus-gambar/{id}', [GambarProdukController::class, 'hapus_gambar']);
+
 Route::resource('berita', BeritaController::class);
 Route::resource('kategoriharga', KategorihargaController::class);
 Route::resource('kategoriproduk', KategoriprodukController::class);

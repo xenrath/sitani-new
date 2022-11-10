@@ -34,20 +34,27 @@
   </div>
   @endif
 </div>
+@if (session('status'))
+<div class="alert alert-primary alert-dismissible" user="alert">
+  {{ session('status') }}
+  <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+</div>
+@endif
 <div class="row row-cols-2 row-cols-md-4 g-4">
-@foreach ($produks as $produk)
+  @foreach ($produks as $produk)
   <div class="col">
     <div class="card h-100">
-      <img class="card-img-top" src="{{ asset('storage/uploads/'.$produk->gambar) }}" alt="Card image cap" />
+      <img class="card-img-top" src="{{ asset('storage/uploads/' . $produk->gambar->first()->gambar) }}"
+        alt="{{ $produk->nama }}" height="200px" style="object-position: center; object-fit: none;"/>
       <div class="card-body">
         <h5 class="card-title">{{ $produk->nama }}</h5>
         <p class="card-text">
           {{ $produk->deskripsi }}
         </p>
         @if (auth()->user()->isPetani())
-        <a href="{{ url('produk/1/edit') }}" class="btn btn-outline-secondary">Ubah Detail</a>
+        <a href="{{ url('produk/' . $produk->id . '/edit') }}" class="btn btn-outline-secondary">Ubah Detail</a>
         @else
-        <a href="{{ url('produk/1') }}" class="btn btn-outline-primary">Lihat Detail</a>
+        <a href="{{ url('produk/' . $produk->id . '1') }}" class="btn btn-outline-primary">Lihat Detail</a>
         @endif
       </div>
     </div>

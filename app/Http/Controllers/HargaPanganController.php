@@ -45,15 +45,20 @@ class HargaPanganController extends Controller
             'harga' => 'required',
         ], [
             'kategori_id.required' => 'Pilih kategori terlebih dahulu!',
-            'namapangan' => 'Masukkan nama pangan !',
-            'harga' => 'Masukkan harga !'
+            'namapangan' => 'Masukkan nama pangan!',
+            'harga' => 'Masukkan harga!'
         ]);
 
         $now = Carbon::now()->format('d-m-y');
 
+        if ($request->harga < 0) {
+            return back()->with('error', 'GAGAL ! Masukan harga dengan benar!');
+        }
+
         HargaPangan::create(array_merge($request->all(), [
             'tanggal' => $now
         ]));
+        
         return redirect('hargapangan')->with('status', 'Berhasil menambahkan harga pangan');
     }
 
