@@ -4,7 +4,7 @@
 
 @section('content')
 @if (auth()->check() && auth()->user()->isAdmin())
-<h4 class="fw-bold py-3 mb-4">Harga Pangan</h4>
+<h4 class="fw-bold py-3 mb-3">Harga Pangan</h4>
 @if (session('status'))
 <div class="alert alert-primary alert-dismissible" user="alert">
   {{ session('status') }}

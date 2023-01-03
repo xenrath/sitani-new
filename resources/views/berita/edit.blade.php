@@ -22,10 +22,14 @@
         <input type="text" class="form-control" name="judul" id="judul" value="{{ old('judul', $berita->judul) }}"
           placeholder="Masukan Judul" required />
       </div>
-      <div class="form-group">
+      <div class="form-group mb-3">
         <label class="form-label" for="isi">Isi</label>
-        <textarea class="form-control" id="isi" rows="3" placeholder="Masukan isi berita"
+        <textarea class="form-control" id="isi" rows="3" placeholder="Masukan isi berita" required
           name="isi">{{ old('isi', $berita->isi) }}</textarea>
+      </div>
+      <div class="form-group mb-3">
+        <label for="formFile" class="form-label">Gambar</label>
+        <input class="form-control" type="file" value="{{ old('gambar', $berita->gambar) }}" name="gambar" id="gambar">
       </div>
     </div>
     <div class="card-footer float-end">

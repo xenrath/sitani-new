@@ -10,9 +10,14 @@
     </span> Tambah
   </h4>
 </div>
-@if (session('error'))
+@if (session('status'))
 <div class="alert alert-danger alert-dismissible" user="alert">
-  {{ session('error') }}
+  <h5 class="text-danger">Error!</h5>
+  <p>
+    @foreach (session('status') as $error)
+    -&nbsp; {{ $error }} <br>
+    @endforeach
+  </p>
   <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
 </div>
 @endif
@@ -28,49 +33,45 @@
         <div class="col-md-6">
           <div class="form-group mb-3">
             <label class="form-label" for="nama">Nama Produk</label>
-            <input type="text" class="form-control @error('kategori_id') is-invalid @enderror" name="nama" id="nama"
-              placeholder="Masukan nama produk" />
+            <input type="text" class="form-control" name="nama" id="nama" value="{{ old('nama') }}" placeholder="masukan nama produk" />
           </div>
         </div>
         <div class="col-md-6">
           <div class="form-group mb-3">
             <label class="form-label" for="kategori">Kategori</label>
-            <select class="form-control @error('kategori_id') is-invalid @enderror" id="kategori_id" name="kategori_id">
+            <select class="form-select" id="kategori_id" name="kategori_id">
               <option value="">- Pilih -</option>
               @foreach ($kategoriproduks as $k)
               <option value="{{ $k->id }}" {{ old('kategori_id')==$k->id ? 'selected' : null }}>{{ $k->nama }}</option>
               @endforeach
             </select>
-            @error('kategori_id')
-            <div class="invalid-feedback">{{ $message }}</div>
-            @enderror
           </div>
         </div>
         <div class="col-md-6">
           <div class="form-group mb-3">
             <label class="form-label" for="harga">Harga</label>
-            <input type="number" class="form-control" name="harga" id="harga" placeholder="Masukan harga produk" />
+            <input type="number" class="form-control" name="harga" id="harga" value="{{ old('harga') }}" placeholder="masukan harga" />
           </div>
         </div>
         <div class="col-md-6" id="layout_stok">
           <div class="form-group mb-3">
             <label class="form-label" for="stok">Stok</label>
-            <input type="number" class="form-control" name="stok" id="stok" placeholder="Masukan stok produk"
+            <input type="number" class="form-control" name="stok" value="{{ old('stok') }}" id="stok" placeholder="masukan stok"
               oninput="this.value = !!this.value && Math.abs(this.value) >= 1 ? Math.abs(this.value) : null"
               autocomplete="off" />
-          </div>
-        </div>
-        <div class="col-md-6">
-          <div class="form-group mb-3">
-            <label class="form-label" for="gambar">Gambar</label>
-            <input type="file" class="form-control" name="gambars[]" id="gambar" accept="image/*" multiple />
           </div>
         </div>
         <div class="col-md-6">
           <div class="form-group">
             <label class="form-label" for="deskripsi">Isi</label>
             <textarea class="form-control" name="deskripsi" id="deskripsi" rows="3"
-              placeholder="Masukan isi produk"></textarea>
+            placeholder="masukan deskripsi  ">{{ old('deskripsi') }}</textarea>
+          </div>
+        </div>
+        <div class="col-md-6">
+          <div class="form-group mb-3">
+            <label class="form-label" for="gambar">Gambar</label>
+            <input type="file" class="form-control" name="gambar[]" id="gambar" accept="image/*" multiple />
           </div>
         </div>
       </div>

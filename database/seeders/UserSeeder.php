@@ -18,9 +18,9 @@ class UserSeeder extends Seeder
             [
                 'nama' => 'Admin',
                 'telp' => 'admin',
-                'alamat' => 'Tegal',
+                'alamat' => null,
                 'password' => bcrypt('admin'),
-                'gambar' => 'user/admin.jpeg',
+                'foto' => null,
                 'role' => 'admin'
             ],
             [
@@ -28,7 +28,7 @@ class UserSeeder extends Seeder
                 'telp' => 'petani',
                 'alamat' => 'Tegal',
                 'password' => bcrypt('petani'),
-                'gambar' => 'user/petani.jpeg',
+                'foto' => 'user/petani1.jpg',
                 'role' => 'petani'
             ],
             [
@@ -36,15 +36,7 @@ class UserSeeder extends Seeder
                 'telp' => '08978556760',
                 'alamat' => 'Tegal',
                 'password' => bcrypt('petani2'),
-                'gambar' => 'user/petani2.jpeg',
-                'role' => 'petani'
-            ],
-            [
-                'nama' => 'Petani3',
-                'telp' => '08978556767',
-                'alamat' => 'Tegal',
-                'password' => bcrypt('petani3'),
-                'gambar' => 'user/petani.jpeg',
+                'foto' => 'user/petani2.jpg',
                 'role' => 'petani'
             ],
             [
@@ -52,7 +44,15 @@ class UserSeeder extends Seeder
                 'telp' => 'tengkulak',
                 'alamat' => 'Tegal',
                 'password' => bcrypt('tengkulak'),
-                'gambar' => 'user/tengkulak.jpeg',
+                'foto' => 'user/tengkulak1.jpeg',
+                'role' => 'tengkulak'
+            ],
+            [
+                'nama' => 'Tengkulak2',
+                'telp' => 'tengkulak2',
+                'alamat' => 'Tegal',
+                'password' => bcrypt('tengkulak2'),
+                'foto' => 'user/tengkulak2.jpg',
                 'role' => 'tengkulak'
             ],
         ];

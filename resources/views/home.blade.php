@@ -36,40 +36,26 @@
   </a>
 </div>
 <div class="card">
-  <h5 class="card-header">Tabel Harga Pangan</h5>
-  <div class="table-responsive text-nowrap">
+  <h5 class="card-header">Tabel Harga Pangan | {{ date('d M Y', strtotime($pangan->created_at)) }}</h5>
+  <div class="table-responsive text-nowrap mb-5">
     <table class="table table-hover">
       <thead>
         <tr>
           <th class="text-center">No.</th>
-          <th>Kode</th>
+          <th>Kategori</th>
           <th>Nama Pangan</th>
           <th>Harga</th>
-          <th>Tanggal</th>
         </tr>
       </thead>
-      <tbody class="table-border-bottom-0">
+      <tbody>
+        @foreach ($hargapangans as $key => $hargapangan)
         <tr>
-          <td class="text-center">1</td>
-          <td>BRS</td>
-          <td>Beras</td>
-          <td>Rp. 10.000</td>
-          <td>12/10/2022</td>
+          <td class="text-center">{{ $hargapangans->firstItem() + $key }}</td>
+          <td>{{ $hargapangan->kategoripangan->kategori }}</td>
+          <td>{{ $hargapangan->nama }}</td>
+          <td>@rupiah($hargapangan->harga)</td>
         </tr>
-        <tr>
-          <td class="text-center">1</td>
-          <td>BRS</td>
-          <td>Beras</td>
-          <td>Rp. 10.000</td>
-          <td>12/10/2022</td>
-        </tr>
-        <tr>
-          <td class="text-center">1</td>
-          <td>BRS</td>
-          <td>Beras</td>
-          <td>Rp. 10.000</td>
-          <td>12/10/2022</td>
-        </tr>
+        @endforeach
       </tbody>
     </table>
   </div>

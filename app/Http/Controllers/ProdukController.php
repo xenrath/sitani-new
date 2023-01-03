@@ -3,11 +3,11 @@
 namespace App\Http\Controllers;
 
 use App\Models\GambarProduk;
-use App\Models\KategoriHarga;
-use App\Models\Kategoriproduk;
+use App\Models\KategoriProduk;
 use Illuminate\Http\Request;
 use App\Models\Produk;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Validator;
 
 class ProdukController extends Controller
 {
@@ -16,52 +16,71 @@ class ProdukController extends Controller
         $this->middleware('auth');
     }
 
-    public function index()
+    public function index(Request $request)
     {
-        $produks = Produk::with('gambar')->get();
+        $kategori_id = $request->kategori_id;
+        $kategoriproduk = KategoriProduk::where('id', $kategori_id)->first();
+
+        $keyword = $request->keyword;
+
+        if ($keyword != "" && $kategori_id != "") {
+            $produks = Produk::where([
+                ['kategori_id', $kategori_id],
+                ['nama', 'like', "%$keyword%"],
+            ])->with('gambar')->get();
+        } elseif ($keyword != "" && $kategori_id == "") {
+            $produks = Produk::where('nama', 'like', "%$keyword%")->with('gambar')->get();
+        } elseif ($keyword == "" && $kategori_id != "") {
+            $produks = Produk::where('kategori_id', $kategori_id)->with('gambar')->get();
+        } else {
+            $produks = Produk::with('gambar')->get();
+        }
 
         // return response($produks);
-
-        return view('produk.index', compact('produks'));
+        $kategoriproduks = KategoriProduk::get();
+        return view('produk.index', compact('produks', 'kategoriproduk', 'kategoriproduks'));
     }
 
     public function create()
     {
-        $kategoriproduks = Kategoriproduk::all();
+        $kategoriproduks = KategoriProduk::all();
         return view('produk.create', compact('kategoriproduks'));
     }
 
     public function store(Request $request)
     {
-        $request->validate([
+        $validator = Validator::make($request->all(), [
             'nama' => 'required',
-            'harga' => 'required',
             'kategori_id' => 'required',
+            'harga' => 'required|gt:0',
             'stok' => 'required',
             'deskripsi' => 'required',
+            'gambar' => 'required',
         ], [
-            'nama.required' => 'Masukan nama!',
-            'harga.required' => 'Masukkan harga !',
-            'gambar.required' => 'Masukkan gambar !',
-            'kategori_id.required' => 'Pilih kategori !',
-            'stok.required' => 'Masukkan stok !',
-            'deskripsi.required' => 'Masukkan deskripsi !',
+            'nama.required' => 'Nama produk tidak boleh kosong!',
+            'kategori_id.required' => 'Kategori harus dipilih!',
+            'harga.required' => 'Harga tidak boleh kosong!',
+            'harga.gt' => 'Harga yang dimasukan salah!',
+            'stok.required' => 'Stok tidak boleh kosong!',
+            'deskripsi.required' => 'Deskripsi tidak boleh kosong!',
+            'gambar.required' => 'Gambar harus ditambahkan!',
         ]);
 
-        if ($request->harga < 0) {
-            return back()->with('error', 'Gagal! Masukan nominal harga dengan benar');
+        if ($validator->fails()) {
+            $error = $validator->errors()->all();
+            return back()->withInput()->with('status', $error);
         }
 
         $produk = Produk::create(array_merge($request->all(), [
             'user_id' => auth()->user()->id
         ]));
 
-        if ($request->has('gambars')) {
-            $gambars = $request->file('gambars');
+        if ($request->has('gambar')) {
+            $gambars = $request->file('gambar');
 
             foreach ($gambars as $gambar) {
                 $name = str_replace(' ', '', $gambar->getClientOriginalName());
-                $namagambar = 'produk/' . date('mYdHs') . rand(1, 10) . '_' . $name;
+                $namagambar = 'produk/' . date('mYdHs') . random_int(1, 10) . '_' . $name;
                 $gambar->storeAs('public/uploads', $namagambar);
 
                 GambarProduk::create([
@@ -71,7 +90,7 @@ class ProdukController extends Controller
             }
         }
 
-        return redirect('produk')->with('status', 'Berhasil menambahkan produk');
+        return redirect('produk')->with('status', 'Berhasil menambahkan Produk');
     }
 
     /**
@@ -107,29 +126,32 @@ class ProdukController extends Controller
      */
     public function update(Request $request, Produk $produk)
     {
-        $request->validate([
+        $validator = Validator::make($request->all(), [
             'nama' => 'required',
-            'harga' => 'required',
             'kategori_id' => 'required',
+            'harga' => 'required|gt',
             'stok' => 'required',
             'deskripsi' => 'required',
         ], [
-            'nama.required' => 'Masukan nama!',
-            'harga.required' => 'Masukkan harga !',
-            'kategori_id.required' => 'Pilih kategori !',
-            'stok.required' => 'Masukkan stok !',
-            'deskripsi.required' => 'Masukkan deskripsi !',
+            'nama.required' => 'Nama produk tidak boleh kosong!',
+            'kategori_id.required' => 'Kategori harus dipilih!',
+            'harga.required' => 'Harga tidak boleh kosong!',
+            'harga.gt' => 'Harga yang dimasukan salah!',
+            'stok.required' => 'Stok tidak boleh kosong!',
+            'deskripsi.required' => 'Deskripsi tidak boleh kosong!',
+            'gambar.required' => 'Gambar harus ditambahkan!',
         ]);
 
-        if ($request->harga < 0) {
-            return back()->with('error', 'Gagal! Masukan nominal harga dengan benar');
+        if ($validator->fails()) {
+            $error = $validator->errors()->all();
+            return back()->withInput()->with('status', $error);
         }
 
         Produk::where('id', $produk->id)
             ->update([
                 'nama' => $request->nama,
-                'harga' => $request->harga,
                 'kategori_id' => $request->kategori_id,
+                'harga' => $request->harga,
                 'stok' => $request->stok,
                 'deskripsi' => $request->deskripsi
             ]);
@@ -139,7 +161,7 @@ class ProdukController extends Controller
 
             foreach ($gambars as $gambar) {
                 $name = str_replace(' ', '', $gambar->getClientOriginalName());
-                $namagambar = 'produk/' . date('mYdHs') . rand(1, 10) . '_' . $name;
+                $namagambar = 'produk/' . date('mYdHs') . random_int(1, 10) . '_' . $name;
                 $gambar->storeAs('public/uploads', $namagambar);
 
                 GambarProduk::create([
@@ -161,7 +183,7 @@ class ProdukController extends Controller
             Storage::disk('local')->delete('public/uploads/' . $gambarproduk->gambar);
             $gambarproduk->delete();
         }
-        
+
         $produk->delete();
         return redirect('produk')->with('status', 'Berhasil menghapus produk');
     }

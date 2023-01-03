@@ -20,7 +20,7 @@ class CreateProduksTable extends Migration
             $table->foreign('user_id')->references('id')->on('users');
             $table->string('harga');
             $table->unsignedInteger('kategori_id');
-            $table->foreign('kategori_id')->references('id')->on('kategoriproduks');
+            $table->foreign('kategori_id')->references('id')->on('kategori_produks');
             $table->string('stok');
             $table->string('deskripsi');
             $table->timestamps();

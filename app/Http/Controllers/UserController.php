@@ -6,15 +6,19 @@ use App\Models\User;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Validator;
 
 class UserController extends Controller
 {
-   
-    public function index()
-    {
-        $data = User::paginate(3);
-        return view('dashboard', compact('data'));
 
+    public function index(Request $request)
+    {
+        $users = User::paginate(3);
+        $filterKeyword = $request->get('keyword');
+        if ($filterKeyword) {
+            $users = User::where('nama', 'LIKE', "%$filterKeyword%")->paginate(3);
+        }
+        return view('user.index', compact('users'));
     }
 
     /**
@@ -24,7 +28,7 @@ class UserController extends Controller
      */
     public function create()
     {
-        //
+        return view('user.create');
     }
 
     /**
@@ -35,7 +39,36 @@ class UserController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $validator = Validator::make($request->all(), [
+            'role' => 'required',
+            'nama' => 'required',
+            'telp' => 'required|unique:users',
+            'alamat' => 'required',
+            'foto' => 'required|image|mimes:jpeg,jpg,png|max:2048',
+        ], [
+            'role.required' => 'Role harus dipilih!',
+            'nama.required' => 'Nama lengkap tidak boleh kosong!',
+            'telp.required' => 'Nomor telepon tidak boleh kosong!',
+            'telp.unique' => 'Nomor telepon sudah digunakan!',
+            'alamat.required' => 'Alamat tidak boleh kosong!',
+            'foto.required' => 'Foto harus ditambahkan'
+        ]);
+
+        if ($validator->fails()) {
+            $error = $validator->errors()->all();
+            return back()->withInput()->with('status', $error);
+        }
+
+        $nama = str_replace(' ', '', $request->foto->getClientOriginalName());
+        $namafoto = 'user/' . date('mYdHs') . random_int(1, 10) . '_' . $nama;
+        $request->foto->storeAs('public/uploads', $namafoto);
+
+        User::create(array_merge($request->all(), [
+            'password' => bcrypt('12345678'),
+            'foto' => $namafoto,
+        ]));
+
+        return redirect('user')->with('status', 'Berhasil menambahkan user');
     }
 
     /**
@@ -44,9 +77,9 @@ class UserController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show(User $user)
     {
-        //
+        return view('user.show', compact('user'));
     }
 
     /**
@@ -58,7 +91,7 @@ class UserController extends Controller
     public function edit($id)
     {
         $user = User::where('id', $id)->first();
-        return view('user.profil', compact('user'));
+        return view('user.edit', compact('user'));
     }
 
     /**
@@ -70,28 +103,62 @@ class UserController extends Controller
      */
     public function update(Request $request, User $user)
     {
-        $request->validate([
-            'nama' => 'required',
-            'tlp' => 'required',
-            'alamat' => 'required',
-            'gambar' => 'sometimes|nullable|image|mimes:jpeg,jpg,png|max:2048',
-        ]);
-
-        if ($request->gambar) {
-            Storage::disk('local')->delete('public/uploads/' . $user->gambar);
-            $gambar = str_replace(' ', '', $request->gambar->getClientOriginalName());
-            $namaGambar = "user/" . date('YmdHis') . "." . $gambar;
-            $request->gambar->storeAs('public/uploads', $namaGambar);
+        if ($user->foto) {
+            $validator = Validator::make($request->all(), [
+                'nama' => 'required',
+                'role' => 'required',
+                'telp' => 'required|unique:users,telp,' . $user->id,
+                'alamat' => 'required',
+                'foto' => 'nullable|image|mimes:jpeg,jpg,png|max:2048',
+            ], [
+                'role.required' => 'Role harus dipilih!',
+                'nama.required' => 'Nama lengkap tidak boleh kosong!',
+                'telp.required' => 'Nomor telepon tidak boleh kosong!',
+                'telp.unique' => 'Nomor telepon sudah digunakan!',
+                'alamat.required' => 'Alamat tidak boleh kosong!',
+                'foto.image' => 'Foto yang dimasukan salah!',
+            ]);
         } else {
-            $namaGambar = $user->gambar;
+            $validator = Validator::make($request->all(), [
+                'nama' => 'required',
+                'role' => 'required',
+                'telp' => 'required|unique:users,telp,' . $user->id,
+                'alamat' => 'required',
+                'foto' => 'required|image|mimes:jpeg,jpg,png|max:2048',
+            ], [
+                'role.required' => 'Role harus dipilih!',
+                'nama.required' => 'Nama lengkap tidak boleh kosong!',
+                'telp.required' => 'Nomor telepon tidak boleh kosong!',
+                'telp.unique' => 'Nomor telepon sudah digunakan!',
+                'alamat.required' => 'Alamat tidak boleh kosong!',
+                'foto.required' => 'Foto harus ditambahkan!',
+                'foto.image' => 'Foto yang ditambahkan salah!',
+            ]);
         }
+
+        if ($validator->fails()) {
+            $error = $validator->errors()->all();
+            return back()->withInput()->with('status', $error);
+        }
+
+        if ($request->foto) {
+            Storage::disk('local')->delete('public/uploads/' . $user->foto);
+            $foto = str_replace(' ', '', $request->foto->getClientOriginalName());
+            $namafoto = "user/" . date('YmdHis') . "." . $foto;
+            $request->foto->storeAs('public/uploads', $namafoto);
+        } else {
+            $namafoto = $user->foto;
+        }
+
         User::where('id', $user->id)
             ->update([
+                'role' => $request->role,
                 'nama' => $request->nama,
-                'tlp' => $request->tlp,
+                'telp' => $request->telp,
                 'alamat' => $request->alamat,
-                'gambar' => $namaGambar,
+                'foto' => $namafoto,
             ]);
+
         return redirect('user')->with('status', 'Berhasil mengubah User');
     }
 
@@ -103,11 +170,39 @@ class UserController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $user = User::find($id);
+        Storage::disk('local')->delete('public/uploads/' . $user->foto);
+        $user->delete();
+        return back()->with('status', 'Berhasil menghapus User');
     }
 
-    public function profile($id)
+    public function register(Request $request)
     {
-        return view('user.profile');
+        $validator = Validator::make($request->all(), [
+            'nama' => 'required',
+            'telp' => 'required|unique:users',
+            'alamat' => 'required',
+            'role' => 'required',
+            'password' => 'required|confirmed'
+        ], [
+            'nama.required' => 'Nama lengkap harus diisi!',
+            'telp.required' => 'Nomor telepon harus diisi!',
+            'telp.unique' => 'Nomor telepon sudah digunakan!',
+            'alamat.required' => 'Alamat harus diisi!',
+            'role.required' => 'Role harus dipilih!',
+            'password.required' => 'Password harus diisi!',
+            'password.confirmed' => 'Konfirmasi password tidak sesuai!'
+        ]);
+
+        if ($validator->fails()) {
+            $error = $validator->errors()->all();
+            return back()->withInput()->with('error', $error);
+        }
+
+        User::create(array_merge($request->all(), [
+            'password' => bcrypt($request->password),
+        ]));
+
+        return back()->with('success', 'Berhasil melakukan pendaftaran');
     }
 }

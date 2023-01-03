@@ -13,7 +13,7 @@
   <div class="col-xl">
     <div class="card">
       <div class="card-header d-flex justify-content-between align-items-center">
-        <h5 class="mb-0">Detail Berita </h5>
+        <h5 class="mb-0">Detail Berita</h5>
       </div>
       <hr class="my-1" />
       <div class="card-body">
@@ -25,7 +25,7 @@
             <p>{{ $berita->judul }}</p>
           </div>
         </div>
-         <div class="row mb-2">
+        <div class="row mb-2">
           <label class="col-sm-4">
             <h5>Isi</h5>
           </label>
@@ -33,7 +33,7 @@
             <p>{{ $berita->isi }}</p>
           </div>
         </div>
-         <div class="row mb-2">
+        <div class="row mb-2">
           <label class="col-sm-4">
             <h5>Tanggal</h5>
           </label>

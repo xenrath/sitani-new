@@ -3,20 +3,20 @@
 namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
-use App\Models\Kategoriproduk;
+use App\Models\KategoriProduk;
 use Illuminate\Http\Request;
 
-class KategoriprodukController extends Controller
+class KategoriProdukController extends Controller
 {
     public function index()
     {
-        $kategoriproduks = Kategoriproduk::paginate(3);
-        return view('kategoriproduk.index', compact('kategoriproduks'));
+        $kategoriproduks = KategoriProduk::paginate(5);
+        return view('produk.kategori.index', compact('kategoriproduks'));
     }
 
     public function create()
     {
-        return view('kategoriproduk.create');
+        return view('produk.kategori.create');
     }
 
     public function store(Request $request)
@@ -24,12 +24,12 @@ class KategoriprodukController extends Controller
         $request->validate([
             'nama' => 'required'
         ], [
-            'nama.required' => 'Produk tidak boleh kosong!'
+            'nama.required' => 'Kategori Produk tidak boleh kosong!'
         ]);
 
-        Kategoriproduk::create($request->all());
+        KategoriProduk::create($request->all());
 
-        return redirect('kategoriproduk')->with('status', 'Berhasil menambahkan kategori produk');
+        return redirect('k_prooduk')->with('status', 'Berhasil menambahkan kategori produk');
     }
 
     public function show(Kategoriproduk $kategoriproduk)
@@ -39,7 +39,7 @@ class KategoriprodukController extends Controller
 
     public function edit(Kategoriproduk $kategoriproduk)
     {
-        return view('kategoriproduk.edit', compact('kategoriproduk'));
+        return view('produk.kategori.edit', compact('kategoriproduk'));
     }
 
     public function update(Request $request, $id)
@@ -54,13 +54,13 @@ class KategoriprodukController extends Controller
             'nama' => $request->nama
         ]);
 
-        return redirect('kategoriproduk')->with('status', 'Berhasil mengubah Kategori produk');
+        return redirect('k_produk')->with('status', 'Berhasil mengubah Kategori produk');
     }
 
     public function destroy($id)
     {
         $produk = Kategoriproduk::find($id);
         $produk->delete();
-        return redirect('kategoriproduk')->with('status', 'Berhasil menghapus Kategori produk');
+        return redirect('k_produk')->with('status', 'Berhasil menghapus Kategori produk');
     }
 }

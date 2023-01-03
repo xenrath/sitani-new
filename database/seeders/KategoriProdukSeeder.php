@@ -2,10 +2,10 @@
 
 namespace Database\Seeders;
 
-use App\Models\Kategoriproduk;
+use App\Models\KategoriProduk;
 use Illuminate\Database\Seeder;
 
-class KategoriprodukSeeder extends Seeder
+class KategoriProdukSeeder extends Seeder
 {
     /**
      * Run the database seeds.
@@ -23,6 +23,6 @@ class KategoriprodukSeeder extends Seeder
             ],
         ];
 
-        Kategoriproduk::insert($data);
+        KategoriProduk::insert($data);
     }
 }

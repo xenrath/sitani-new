@@ -15,11 +15,12 @@ class CreateHargaPangansTable extends Migration
     {
         Schema::create('harga_pangans', function (Blueprint $table) {
             $table->id();
-            $table->unsignedInteger('kategori_id');
-            $table->foreign('kategori_id')->references('id')->on('kategori_hargas');
-            $table->string('namapangan');
+            $table->unsignedBigInteger('pangan_id');
+            $table->foreign('pangan_id')->references('id')->on('pangans');
+            $table->unsignedInteger('kategori');
+            $table->foreign('kategori')->references('id')->on('kategori_pangans');
+            $table->string('nama');
             $table->string('harga');
-            $table->string('tanggal');
             $table->timestamps();
         });
     }

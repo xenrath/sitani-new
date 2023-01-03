@@ -8,14 +8,17 @@ use Illuminate\Database\Eloquent\Model;
 class HargaPangan extends Model
 {
     use HasFactory;
-    protected $table = 'harga_pangans';
+
     protected $fillable = [
-        'kategori_id', 'namapangan', 'harga', 'tanggal'
+        'pangan_id',
+        'kategori',
+        'nama',
+        'harga',
     ];
 
-    public function kategoriharga()
+    public function kategoripangan()
     {
-        return $this->belongsTo(KategoriHarga::class, "kategori_id", "id");
+        return $this->belongsTo(KategoriPangan::class, 'kategori', 'id');
     }
 
     public function rupiah($harga)

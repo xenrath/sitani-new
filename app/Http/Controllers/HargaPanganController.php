@@ -2,22 +2,21 @@
 
 namespace App\Http\Controllers;
 
+use App\Imports\HargaPanganImport;
 use App\Models\HargaPangan;
 use App\Models\KategoriHarga;
+use App\Models\Pangan;
 use Illuminate\Http\Request;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Validator;
 
 class HargaPanganController extends Controller
 {
-    public function __construct()
-    {
-        $this->middleware('auth');
-    }
-
     public function index()
     {
-        $hargapangans = HargaPangan::paginate(3);
-        return view('hargapangan.index', compact('hargapangans'));
+        $pangan = Pangan::latest()->first();
+        $hargapangans = HargaPangan::where('pangan_id', $pangan->id)->paginate(5);
+        return view('pangan.harga.index', compact('pangan', 'hargapangans'));
     }
 
     /**
@@ -27,8 +26,8 @@ class HargaPanganController extends Controller
      */
     public function create()
     {
-        $kategorihargas = KategoriHarga::all();
-        return view('hargapangan.create', compact('kategorihargas'));
+        $kategorihargas = KategoriPangan::all();
+        return view('pangan.harga.create', compact('kategorihargas'));
     }
 
     /**
@@ -58,7 +57,7 @@ class HargaPanganController extends Controller
         HargaPangan::create(array_merge($request->all(), [
             'tanggal' => $now
         ]));
-        
+
         return redirect('hargapangan')->with('status', 'Berhasil menambahkan harga pangan');
     }
 
@@ -70,7 +69,7 @@ class HargaPanganController extends Controller
      */
     public function show(HargaPangan $hargapangan)
     {
-        return view('hargapangan.show', compact('hargapangan'));
+        return view('pangan.harga.show', compact('hargapangan'));
     }
     /**
      * Show the form for editing the specified resource.
@@ -82,7 +81,7 @@ class HargaPanganController extends Controller
     {
         $kategorihargas = KategoriHarga::all();
         $hargapangan = HargaPangan::where('id', $id)->first();
-        return view('hargapangan.edit', compact('hargapangan', 'kategorihargas'));
+        return view('pangan.harga.edit', compact('hargapangan', 'kategorihargas'));
     }
 
     /**
@@ -124,5 +123,47 @@ class HargaPanganController extends Controller
         $hargapangan = HargaPangan::find($id);
         $hargapangan->delete();
         return redirect('hargapangan')->with('status', 'Berhasil menghapus harga pangan');
+    }
+
+    public function import(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'file' => 'required',
+        ], [
+            'file.required' => 'File harus ditambahkan!',
+        ]);
+
+        if ($validator->fails()) {
+            $error = $validator->errors()->all();
+            return back()->with('error', $error[0]);
+        }
+
+        $file = $request->file('file');
+        $nama = str_replace(' ', '', $file->getClientOriginalName());
+        $namafile = 'file/' . date('mYdHs') . rand(1, 10) . '_' . $nama;
+        $file->storeAs('public/uploads', $namafile);
+
+        $pangan = Pangan::create(array('file' => $namafile));
+
+        if ($pangan) {
+            $import = new HargaPanganImport($pangan->id);
+            $import->import($file);
+
+            // dd($import->failures());
+
+            if ($import->failures()->isNotEmpty()) {
+                return back()->withFailures($import->failures());
+            } else {
+                return back()->with('status', 'Berhasil mengimport Harga Pangan');
+            }
+        }
+
+        return back();
+    }
+
+    public function export()
+    {
+        $file = public_path('storage/uploads/format/format_hargapangan.xlsx');
+        return response()->download($file);
     }
 }

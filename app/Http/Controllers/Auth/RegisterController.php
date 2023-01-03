@@ -49,11 +49,28 @@ class RegisterController extends Controller
      */
     protected function validator(array $data)
     {
-        return Validator::make($data, [
-            'name' => ['required', 'string', 'max:255'],
-            'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
-            'password' => ['required', 'string', 'min:8', 'confirmed'],
+        $validator = Validator::make($data, [
+            'nama' => 'required',
+            'telp' => 'required|unique:users',
+            'alamat' => 'required',
+            'role' => 'required',
+            'password' => 'required|confirmed'
+        ], [
+            'nama.required' => 'Nama lengkap harus diisi!',
+            'telp.required' => 'Nomor telepon harus diisi!',
+            'telp.unique' => 'Nomor telepon sudah digunakan!',
+            'alamat.required' => 'Alamat harus diisi!',
+            'role.required' => 'Role harus dipilih!',
+            'password.required' => 'Password harus diisi!',
+            'password.confirmed' => 'Konfirmasi password tidak sesuai!'
         ]);
+
+        return $validator;
+
+        // if ($validator->fails()) {
+        //     $error = $validator->errors()->all();
+        //     return back()->withInput()->with('error', $error);
+        // }
     }
 
     /**
@@ -64,10 +81,12 @@ class RegisterController extends Controller
      */
     protected function create(array $data)
     {
-        return User::create([
-            'name' => $data['name'],
-            'email' => $data['email'],
+        User::create([
+            'nama' => $data['nama'],
+            'telp' => $data['telp'],
             'password' => Hash::make($data['password']),
         ]);
+
+        return back()->withInput()->with('success', 'Berhasil melakukan pendaftaran');
     }
 }

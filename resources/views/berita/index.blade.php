@@ -37,7 +37,7 @@
             <td class="text-center align-top">{{ $beritas->firstItem() + $key }}</td>
             <td class="text-wrap align-top">{{ $berita->judul }}</td>
             <td class="text-wrap align-top">{{ $berita->isi }}</td>
-            <td class="align-top">{{ date('d-m-Y', strtotime($berita->date)) }}</td>
+            <td class="align-top">{{ date('d M Y', strtotime($berita->date)) }}</td>
             <td class="text-center align-top">
               <a href="{{ url('berita/' . $berita->id) }}" class="btn rounded-pill btn-info btn-sm text-white">
                 <span class="d-none d-sm-block">Detail</span>
@@ -49,18 +49,13 @@
                 <i class="tf-icons bx bxs-edit d-block d-sm-none"></i>
               </a>
               <a href="" class="btn rounded-pill btn-danger btn-sm text-white" data-bs-toggle="modal"
-                data-bs-target="#modalDelete">
+                data-bs-target="#modalDelete{{ $berita->id }}">
                 <span class="d-none d-sm-block">Hapus</span>
                 <i class="tf-icons bx bx-trash-alt d-block d-sm-none"></i>
               </a>
             </td>
           </tr>
-          @empty
-          <tr>
-            <td class="text-center" colspan="5">- Data tidak ditemukan -</td>
-          </tr>
-          @endforelse
-          <div class="modal fade" id="modalDelete" aria-labelledby="modalToggleLabel" tabindex="-1"
+          <div class="modal fade" id="modalDelete{{ $berita->id }}" aria-labelledby="modalToggleLabel" tabindex="-1"
             style="display: none" aria-hidden="true">
             <div class="modal-dialog modal-dialog-centered modal-sm">
               <div class="modal-content">
@@ -68,7 +63,9 @@
                   <h5 class="modal-title" id="modalToggleLabel">Hapus</h5>
                   <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
-                <div class="modal-body">Yakin hapus Berita <strong>{{ $berita->judul }}</strong>?</div>
+                <div class="modal-body">
+                  <p class="text-wrap">Yakin hapus Berita <strong>{{ $berita->judul }}</strong>?</p>
+                </div>
                 <div class="modal-footer">
                   <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">
                     Batal
@@ -85,6 +82,11 @@
               </div>
             </div>
           </div>
+          @empty
+          <tr>
+            <td class="text-center" colspan="5">- Data tidak ditemukan -</td>
+          </tr>
+          @endforelse
         </tbody>
       </table>
     </div>
@@ -106,10 +108,10 @@
   <div class="col-12 col-md-4 mb-3">
     <div class="list-group">
       <a class="list-group-item list-group-item-action active" data-bs-toggle="list" href="#semua">Semua Berita</a>
-      <a class="list-group-item list-group-item-action" data-bs-toggle="list" href="#beras">Beras</a>
-      <a class="list-group-item list-group-item-action" data-bs-toggle="list" href="#cabai">Cabai</a>
-      <a class="list-group-item list-group-item-action" data-bs-toggle="list" href="#jagung">Jagung</a>
-      <a class="list-group-item list-group-item-action" data-bs-toggle="list" href="#padi">Padi</a>
+      @foreach ($kategoripangans as $kategoripangan)
+      <a class="list-group-item list-group-item-action" data-bs-toggle="list" href="#{{ $kategoripangan->kategori }}">{{
+        $kategoripangan->nama }}</a>
+      @endforeach
     </div>
   </div>
   <div class="col-12 col-md-8">
@@ -119,8 +121,8 @@
         <div class="card mb-3">
           <div class="row g-0">
             <div class="col-md-4">
-              <img class="card-img card-img-left" src="{{ asset('sneat/assets/img/elements/12.jpg') }}"
-                alt="Card image" />
+              <img class="card-img card-img-left h-100" src="{{ asset('storage/uploads/' . $semua->gambar) }}"
+                alt="Card image" style="object-position: center; object-fit: cover;" />
             </div>
             <div class="col-md-8">
               <div class="card-body">
@@ -131,11 +133,11 @@
                   @if (strlen(strip_tags($semua->isi)) > 320)
                   ...
                   <br>
-                  <button class="btn btn-info btn-sm mt-2" data-bs-toggle="modal"
+                  <button type="button" class="btn btn-info btn-sm mt-2" data-bs-toggle="modal"
                     data-bs-target="#modalBerita{{ $semua->id }}">Baca Selengkapnya</button>
                   @endif
                 </p>
-                <p class="card-text"><small class="text-muted">{{ $semua->date }}</small></p>
+                <p class="card-text"><small class="text-muted">{{ date('d M Y', strtotime($semua->date)) }}</small></p>
               </div>
             </div>
           </div>
@@ -148,27 +150,32 @@
         </div>
         @endforelse
       </div>
-      <div class="tab-pane fade" id="beras">
-        @forelse ($berases as $beras)
+      @foreach ($kategoripangans as $kategoripangan)
+      <div class="tab-pane fade" id="{{ $kategoripangan->kategori }}">
+        @php
+        $beritas = \App\Models\Berita::where('judul', 'like', "%$kategoripangan->nama%")->orWhere('isi', 'like',
+        "%$kategoripangan->nama%")->get();
+        @endphp
+        @forelse ($beritas as $berita)
         <div class="card mb-3">
           <div class="row g-0">
             <div class="col-md-4">
-              <img class="card-img card-img-left" src="{{ asset('sneat/assets/img/elements/12.jpg') }}"
-                alt="Card image" />
+              <img class="card-img card-img-left h-100" src="{{ asset('storage/uploads/' . $berita->gambar) }}"
+                alt="Card image" style="object-position: center; object-fit: cover;" />
             </div>
             <div class="col-md-8">
               <div class="card-body">
-                <h5 class="card-title">{{ $beras->judul }}</h5>
+                <h5 class="card-title">{{ $berita->judul }}</h5>
                 <p class="card-text">
-                  {{ substr(strip_tags($beras->isi), 0, 320) }}
-                  @if (strlen(strip_tags($beras->isi)) > 320)
+                  {{ substr(strip_tags($berita->isi), 0, 320) }}
+                  @if (strlen(strip_tags($berita->isi)) > 320)
                   ...
                   <br>
-                  <button class="btn btn-info btn-sm mt-2" data-bs-toggle="modal"
-                    data-bs-target="#modalBerita{{ $beras->id }}">Baca Selengkapnya</button>
+                  <button type="button" class="btn btn-info btn-sm mt-2" data-bs-toggle="modal"
+                    data-bs-target="#modalBerita{{ $berita->id }}">Baca Selengkapnya</button>
                   @endif
                 </p>
-                <p class="card-text"><small class="text-muted">{{ $beras->date }}</small></p>
+                <p class="card-text"><small class="text-muted">{{ date('d M Y', strtotime($berita->date)) }}</small></p>
               </div>
             </div>
           </div>
@@ -181,106 +188,7 @@
         </div>
         @endforelse
       </div>
-      <div class="tab-pane fade" id="cabai">
-        @forelse ($cabais as $cabai)
-        <div class="card mb-3">
-          <div class="row g-0">
-            <div class="col-md-4">
-              <img class="card-img card-img-left" src="{{ asset('sneat/assets/img/elements/12.jpg') }}"
-                alt="Card image" />
-            </div>
-            <div class="col-md-8">
-              <div class="card-body">
-                <h5 class="card-title">{{ $cabai->judul }}</h5>
-                <p class="card-text">
-                  {{ substr(strip_tags($cabai->isi), 0, 320) }}
-                  @if (strlen(strip_tags($cabai->isi)) > 320)
-                  ...
-                  <br>
-                  <button class="btn btn-info btn-sm mt-2" data-bs-toggle="modal"
-                    data-bs-target="#modalBerita{{ $cabai->id }}">Baca Selengkapnya</button>
-                  @endif
-                </p>
-                <p class="card-text"><small class="text-muted">{{ $cabai->date }}</small></p>
-              </div>
-            </div>
-          </div>
-        </div>
-        @empty
-        <div class="card mb-3">
-          <div class="card-body">
-            <p class="card-text text-center">- Berita tidak ditemukan -</p>
-          </div>
-        </div>
-        @endforelse
-      </div>
-      <div class="tab-pane fade" id="jagung">
-        @forelse ($jagungs as $jagung)
-        <div class="card mb-3">
-          <div class="row g-0">
-            <div class="col-md-4">
-              <img class="card-img card-img-left" src="{{ asset('sneat/assets/img/elements/12.jpg') }}"
-                alt="Card image" />
-            </div>
-            <div class="col-md-8">
-              <div class="card-body">
-                <h5 class="card-title">{{ $jagung->judul }}</h5>
-                <p class="card-text">
-                  {{ substr(strip_tags($jagung->isi), 0, 320) }}
-                  @if (strlen(strip_tags($jagung->isi)) > 320)
-                  ...
-                  <br>
-                  <button class="btn btn-info btn-sm mt-2" data-bs-toggle="modal"
-                    data-bs-target="#modalBerita{{ $jagung->id }}">Baca Selengkapnya</button>
-                  @endif
-                </p>
-                <p class="card-text"><small class="text-muted">{{ $jagung->date }}</small></p>
-              </div>
-            </div>
-          </div>
-        </div>
-        @empty
-        <div class="card mb-3">
-          <div class="card-body">
-            <p class="card-text text-center">- Berita tidak ditemukan -</p>
-          </div>
-        </div>
-        @endforelse
-      </div>
-      <div class="tab-pane fade" id="padi">
-        @forelse ($padis as $padi)
-        <div class="card mb-3">
-          <div class="row g-0">
-            <div class="col-md-4">
-              <img class="card-img card-img-left" src="{{ asset('sneat/assets/img/elements/12.jpg') }}"
-                alt="Card image" />
-            </div>
-            <div class="col-md-8">
-              <div class="card-body">
-                <h5 class="card-title">{{ $padi->judul }}</h5>
-                <p class="card-text">
-                  {{ substr(strip_tags($padi->isi), 0, 320) }}
-                  @if (strlen(strip_tags($padi->isi)) > 320)
-                  ...
-                  <br>
-                  <button class="btn btn-info btn-sm mt-2" data-bs-toggle="modal"
-                    data-bs-target="#modalBerita{{ $padi->id }}">Read
-                    More</button>
-                  @endif
-                </p>
-                <p class="card-text"><small class="text-muted">{{ $padi->date }}</small></p>
-              </div>
-            </div>
-          </div>
-        </div>
-        @empty
-        <div class="card mb-3">
-          <div class="card-body">
-            <p class="card-text text-center">- Berita tidak ditemukan -</p>
-          </div>
-        </div>
-        @endforelse
-      </div>
+      @endforeach
     </div>
   </div>
 </div>
@@ -293,7 +201,7 @@
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body">
-        <img class="rounded" src="{{ asset('sneat/assets/img/elements/12.jpg') }}" alt="{{ $semua->judul }}" />
+        <img class="rounded w-100" src="{{ asset('storage/uploads/' . $semua->gambar) }}" alt="{{ $semua->judul }}" />
         <p class="mt-3">{{ $semua->isi }}</p>
       </div>
       <div class="modal-footer">

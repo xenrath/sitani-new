@@ -64,28 +64,52 @@
     <li class="menu-header small text-uppercase">
       <span class="menu-header-text">Menu</span>
     </li>
+    <li class="menu-item {{ request()->is('user*') ? 'active' : '' }}">
+      <a href="{{ url('user') }}" class="menu-link">
+        <i class="menu-icon tf-icons bx bx-user"></i>
+        <div data-i18n="data-user">User</div>
+      </a>
+    </li>
     <li class="menu-item {{ request()->is('berita*') ? 'active' : '' }}">
       <a href="{{ url('berita') }}" class="menu-link">
         <i class="menu-icon tf-icons bx bx-news"></i>
         <div data-i18n="berita">Berita</div>
       </a>
     </li>
-    <li class="menu-item {{ request()->is('hargapangan*') ? 'active' : '' }}">
-      <a href="{{ url('hargapangan') }}" class="menu-link">
-        <i class="menu-icon tf-icons bx bx-purchase-tag"></i>
-        <div data-i18n="kategori-produk">Harga Pangan</div>
-      </a>
+    <li class="menu-header small text-uppercase">
+      <span class="menu-header-text">Produk</span>
     </li>
-    <li class="menu-item {{ request()->is('kategoriproduk*') ? 'active' : '' }}">
-      <a href="{{ url('kategoriproduk') }}" class="menu-link">
+    <li class="menu-item {{ request()->is('k_produk*') ? 'active' : '' }}">
+      <a href="{{ url('k_produk') }}" class="menu-link">
         <i class="menu-icon tf-icons bx bx-category"></i>
         <div data-i18n="kategori-produk">Kategori Produk</div>
       </a>
     </li>
-    <li class="menu-item {{ request()->is('kategoriharga*') ? 'active' : '' }}">
-      <a href="{{ url('kategoriharga') }}" class="menu-link">
+    <li class="menu-item {{ request()->is('produk*') ? 'active' : '' }}">
+      <a href="{{ url('produk') }}" class="menu-link">
         <i class="menu-icon tf-icons bx bx-category"></i>
-        <div data-i18n="kategori-harga-pangan">Kategori Harga Pangan</div>
+        <div data-i18n="kategori-produk">Data Produk</div>
+      </a>
+    </li>
+    <li class="menu-header small text-uppercase">
+      <span class="menu-header-text">Pangan</span>
+    </li>
+    <li class="menu-item {{ request()->is('pangan/kategori*') ? 'active' : '' }}">
+      <a href="{{ url('pangan/kategori') }}" class="menu-link">
+        <i class="menu-icon tf-icons bx bx-category"></i>
+        <div data-i18n="kategori-harga-pangan">Kategori Pangan</div>
+      </a>
+    </li>
+    <li class="menu-item {{ request()->is('pangan/harga*') ? 'active' : '' }}">
+      <a href="{{ url('pangan/harga') }}" class="menu-link">
+        <i class="menu-icon tf-icons bx bx-purchase-tag"></i>
+        <div data-i18n="kategori-produk">Harga Pangan</div>
+      </a>
+    </li>
+    <li class="menu-item {{ request()->is('pangan/riwayat*') ? 'active' : '' }}">
+      <a href="{{ url('pangan/riwayat') }}" class="menu-link">
+        <i class="menu-icon tf-icons bx bx-history"></i>
+        <div data-i18n="kategori-produk">Riwayat Pangan</div>
       </a>
     </li>
   </ul>

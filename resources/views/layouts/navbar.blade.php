@@ -35,7 +35,7 @@
         </button>
         <ul class="dropdown-menu dropdown-menu-start dropdown-menu-lg-end">
           <li>
-            <a class="dropdown-item" href="{{ url('profile/1') }}">
+            <a class="dropdown-item" href="{{ url('profile') }}">
               <i class="bx bx-user me-2"></i>
               <span class="align-middle">Profile Saya</span>
             </a>
@@ -52,7 +52,8 @@
         </ul>
       </div>
       @else
-      <a href="{{ route('login') }}" class="btn btn-outline-primary">Login</a>
+      <a href="{{ route('login') }}" class="btn btn-outline-primary me-1">Masuk</a>
+      <a href="{{ route('register') }}" class="btn btn-outline-secondary">Registrasi</a>
       @endif
     </div>
   </div>

@@ -1,103 +1,70 @@
 @extends('layouts.app')
 
-@section('title', 'Produk')
+@section('title', 'Kategori Produk')
 
 @section('content')
-<div class="d-flex align-items-start justify-content-between py-3 mb-3">
-  <h4 class="fw-bold">
-    <span class="text-muted fw-light">Produk /</span>
-    <span id="kategori">Semua</span>
-  </h4>
-  <div class="btn-group">
-    <button type="button" class="btn btn-primary dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
-      <i class="bx bx-menu"></i>&nbsp; 
-      <span class="d-none d-md-inline">Kategori Produk</span>
-    </button>
-    <ul class="dropdown-menu dropdown-menu-end">
-      <li>
-        <a href="" class="dropdown-item d-flex align-items-center">Semua Produk</a>
-      </li>
-      <li>
-        <a href="" class="dropdown-item d-flex align-items-center">Produk Biasa</a>
-      </li>
-      <li>
-        <a href="" class="dropdown-item d-flex align-items-center">Produk Tebasan</a>
-      </li>
-    </ul>
-  </div>
-</div>
-<div class="row row-cols-2 row-cols-md-4 g-4">
-  <div class="col">
-    <div class="card h-100">
-      <img class="card-img-top" src="{{ asset('sneat/assets/img/elements/2.jpg') }}" alt="Card image cap" />
-      <div class="card-body">
-        <h5 class="card-title">Nama Produk</h5>
-        <p class="card-text">
-          Deskripsi
-        </p>
-        <a href="{{ url('produk/1') }}" class="btn btn-outline-primary">Lihat Detail</a>
-      </div>
+@if (auth()->check() &&
+auth()->user()->isAdmin())
+<h4 class="fw-bold py-3 mb-3">Kategori Produk</h4>
+<div class="card">
+  <h5 class="card-header d-flex align-items-start justify-content-between">
+    Tabel Kategori
+    <a href="{{ url('k_produk/create') }}" class="btn btn-sm rounded-pill btn-primary">
+      <span class="d-none d-sm-block">Tambah Kategori</span>
+      <i class="tf-icons bx bx-plus d-block d-sm-none"></i>
+    </a>
+  </h5>
+  <div class="card-body p-0">
+    <div class="table-responsive text-nowrap">
+      <table class="table table-hover">
+        <thead>
+          <tr>
+            <th class="text-center">No.</th>
+            <th>Nama</th>
+            <th class="text-center">Opsi</th>
+          </tr>
+        </thead>
+        <tbody class="table-border-bottom-0">
+          @forelse ($kategoriproduks as $key => $kategoriproduk)
+          <tr>
+            <td class="text-center">{{ $kategoriproduks->firstItem() + $key }}</td>
+            <td>{{ $kategoriproduk->nama }}</td>
+            <td class="text-center">
+              <form method="post" action="{{ url('k_produk/' . $kategoriproduk->id) }}"
+                onsubmit="return confirm('Apakah anda yakin akan menghapus data ini?')">
+                @csrf
+                @method('delete')
+                <a href="{{ url('k_produk/' . $kategoriproduk->id) }}"
+                  class="btn rounded-pill btn-info btn-sm text-white">
+                  <span class="d-none d-sm-block">Detail</span>
+                  <i class="tf-icons bx bx-show d-block d-sm-none"></i>
+                </a>
+                <a href="{{ url('k_produk/' . $kategoriproduk->id . '/edit') }}"
+                  class="btn rounded-pill btn-secondary btn-sm text-white">
+                  <span class="d-none d-sm-block">Edit</span>
+                  <i class="tf-icons bx bxs-edit d-block d-sm-none"></i>
+                </a>
+                <button type="submit" class="btn rounded-pill btn-danger btn-sm text-white">
+                  <span class="d-none d-sm-block">Hapus</span>
+                  <i class="tf-icons bx bx-trash d-block d-sm-none"></i>
+                </button>
+              </form>
+            </td>
+          </tr>
+          @empty
+          <tr>
+            <td class="text-center" colspan="3">- Data tidak ditemukan -</td>
+          </tr>
+          @endforelse
+        </tbody>
+      </table>
     </div>
   </div>
-  <div class="col">
-    <div class="card h-100">
-      <img class="card-img-top" src="{{ asset('sneat/assets/img/elements/13.jpg') }}" alt="Card image cap" />
-      <div class="card-body">
-        <h5 class="card-title">Nama Produk</h5>
-        <p class="card-text">
-          Deskripsi
-        </p>
-        <a href="" class="btn btn-outline-primary">Lihat Detail</a>
-      </div>
-    </div>
-  </div>
-  <div class="col">
-    <div class="card h-100">
-      <img class="card-img-top" src="{{ asset('sneat/assets/img/elements/4.jpg') }}" alt="Card image cap" />
-      <div class="card-body">
-        <h5 class="card-title">Nama Produk</h5>
-        <p class="card-text">
-          Deskripsi
-        </p>
-        <a href="" class="btn btn-outline-primary">Lihat Detail</a>
-      </div>
-    </div>
-  </div>
-  <div class="col">
-    <div class="card h-100">
-      <img class="card-img-top" src="{{ asset('sneat/assets/img/elements/18.jpg') }}" alt="Card image cap" />
-      <div class="card-body">
-        <h5 class="card-title">Nama Produk</h5>
-        <p class="card-text">
-          Deskripsi
-        </p>
-        <a href="" class="btn btn-outline-primary">Lihat Detail</a>
-      </div>
-    </div>
-  </div>
-  <div class="col">
-    <div class="card h-100">
-      <img class="card-img-top" src="{{ asset('sneat/assets/img/elements/19.jpg') }}" alt="Card image cap" />
-      <div class="card-body">
-        <h5 class="card-title">Card title</h5>
-        <p class="card-text">
-          This is a longer card with supporting text below as a natural lead-in to additional content.
-          This content is a little bit longer.
-        </p>
-      </div>
-    </div>
-  </div>
-  <div class="col">
-    <div class="card h-100">
-      <img class="card-img-top" src="{{ asset('sneat/assets/img/elements/20.jpg') }}" alt="Card image cap" />
-      <div class="card-body">
-        <h5 class="card-title">Nama Produk</h5>
-        <p class="card-text">
-          Deskripsi
-        </p>
-        <a href="" class="btn btn-outline-primary">Lihat Detail</a>
-      </div>
+  <div class="card-footer">
+    <div class="pagination pagination-md float-end">
+      {{ $kategoriproduks->appends(Request::all())->links('pagination::bootstrap-4') }}
     </div>
   </div>
 </div>
+@endif
 @endsection

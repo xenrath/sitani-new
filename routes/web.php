@@ -6,8 +6,10 @@ use App\Http\Controllers\HargaPanganController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\ProdukController;
 use App\Http\Controllers\UserController;
-use App\Http\Controllers\KategorihargaController;
-use App\Http\Controllers\KategoriprodukController;
+use App\Http\Controllers\KategoriPanganController;
+use App\Http\Controllers\KategoriProdukController;
+use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\RiwayatPanganController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
@@ -28,12 +30,22 @@ Route::get('/', [HomeController::class, 'index']);
 Route::get('dashboard', [HomeController::class, 'dashboard'])->middleware('admin');
 
 Route::resource('user', UserController::class);
-Route::get('profile/{id}', [UserController::class, 'profile']);
+Route::post('register', [UserController::class, 'register']);
+Route::get('profile', [ProfileController::class, 'index']);
+Route::post('profile', [ProfileController::class, 'update']);
 
 Route::resource('produk', ProdukController::class);
+Route::resource('k_produk', KategoriProdukController::class);
+
 Route::get('hapus-gambar/{id}', [GambarProdukController::class, 'hapus_gambar']);
 
 Route::resource('berita', BeritaController::class);
-Route::resource('kategoriharga', KategorihargaController::class);
-Route::resource('kategoriproduk', KategoriprodukController::class);
-Route::resource('hargapangan', HargaPanganController::class);
+
+Route::prefix('pangan')->group(function () {
+  Route::resource('kategori', KategoriPanganController::class);
+  Route::post('harga/import', [HargaPanganController::class, 'import']);
+  Route::get('harga/export', [HargaPanganController::class, 'export']);
+  Route::resource('harga', HargaPanganController::class);
+  Route::get('riwayat/download/{id}', [RiwayatPanganController::class, 'download']);
+  Route::resource('riwayat', RiwayatPanganController::class);
+});

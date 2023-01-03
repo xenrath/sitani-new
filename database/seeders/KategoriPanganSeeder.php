@@ -2,10 +2,10 @@
 
 namespace Database\Seeders;
 
-use App\Models\KategoriHarga;
+use App\Models\KategoriPangan;
 use Illuminate\Database\Seeder;
 
-class KategorihargapanganSeeder extends Seeder
+class KategoriPanganSeeder extends Seeder
 {
     /**
      * Run the database seeds.
@@ -20,27 +20,27 @@ class KategorihargapanganSeeder extends Seeder
                 'nama' => 'Beras',
             ],
             [
-                'kategori' => 'CB',
-                'nama' => 'Cabe',
+                'kategori' => 'CBI',
+                'nama' => 'Cabai',
             ],
             [
-                'kategori' => 'JG',
+                'kategori' => 'JGG',
                 'nama' => 'Jagung',
             ],
             [
-                'kategori' => 'BW',
+                'kategori' => 'BWG',
                 'nama' => 'Bawang',
             ],
             [
-                'kategori' => 'KD',
+                'kategori' => 'KDL',
                 'nama' => 'Kedelai',
             ],
             [
-                'kategori' => 'UJ',
+                'kategori' => 'UJL',
                 'nama' => 'Ubi Jalar',
             ],
         ];
 
-        KategoriHarga::insert($data);
+        KategoriPangan::insert($data);
     }
 }
