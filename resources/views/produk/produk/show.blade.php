@@ -5,30 +5,31 @@
 @section('content')
 <div class="d-flex align-items-start justify-content-between py-3">
   <h4 class="fw-bold">
-    <span class="text-muted fw-light">Produk /</span>
+    <span class="text-muted fw-light">
+      <a href="{{ url('produk/produk') }}">Produk /</a>
+    </span>
     <span id="kategori">Detail</span>
   </h4>
 </div>
 <div class="card mb-3 p-3">
   <div class="row g-0">
     <div class="col-md-4">
-      <img class="card-img card-img-left rounded" src="{{ asset('sneat/assets/img/elements/12.jpg') }}"
-        alt="Card image" />
+      <img class="card-img card-img-left rounded" src="{{ asset('storage/uploads/' . $produk->gambar->first()->gambar) }}"
+        alt="{{ $produk->nama }}" />
     </div>
     <div class="col-md-8">
       <div class="card-body">
-        <h5 class="card-title">Nama Produk</h5>
+        <h5 class="card-title">{{ $produk->nama }}</h5>
         <p class="card-text">
-          Lorem ipsum dolor sit amet consectetur adipisicing elit. Veniam earum consequuntur laudantium soluta voluptas
-          fugit dolor iure consectetur sint tempore.
+          {{ $produk->deskripsi }}
         </p>
         <p class="card-text">
-          <small class="text-muted">Last updated 3 mins ago</small>
+          <small class="text-muted">{{ $produk->kategoriproduk->nama }}</small>
         </p>
         <p class="fw-bold">
-          Stok : 10
+          @rupiah($produk->harga)
         </p>
-        <a href="" class="btn rounded-pill mt-4" style="background-color: #25D366; color: white;">
+        <a href="https://web.whatsapp.com/send?phone=+62{{ $produk->user->telp }}" class="btn rounded-pill mt-4" style="background-color: #25D366; color: white;">
           <i class="bx bxl-whatsapp"></i>
           <span class="align-middle">Hubungi Penjual</span>
         </a>

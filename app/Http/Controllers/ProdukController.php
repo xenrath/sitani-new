@@ -38,13 +38,13 @@ class ProdukController extends Controller
 
         // return response($produks);
         $kategoriproduks = KategoriProduk::get();
-        return view('produk.index', compact('produks', 'kategoriproduk', 'kategoriproduks'));
+        return view('produk.produk.index', compact('produks', 'kategoriproduk', 'kategoriproduks'));
     }
 
     public function create()
     {
         $kategoriproduks = KategoriProduk::all();
-        return view('produk.create', compact('kategoriproduks'));
+        return view('produk.produk.create', compact('kategoriproduks'));
     }
 
     public function store(Request $request)
@@ -90,7 +90,7 @@ class ProdukController extends Controller
             }
         }
 
-        return redirect('produk')->with('status', 'Berhasil menambahkan Produk');
+        return redirect('produk/produk')->with('status', 'Berhasil menambahkan Produk');
     }
 
     /**
@@ -101,7 +101,7 @@ class ProdukController extends Controller
      */
     public function show(Produk $produk)
     {
-        return view('produk.show', compact('produk'));
+        return view('produk.produk.show', compact('produk'));
     }
     /**
      * Show the form for editing the specified resource.
@@ -114,7 +114,7 @@ class ProdukController extends Controller
         $kategoriproduks = Kategoriproduk::all();
         $gambarproduks = GambarProduk::where('produk_id', $produk->id)->get();
 
-        return view('produk.edit', compact('produk', 'kategoriproduks', 'gambarproduks'));
+        return view('produk.produk.edit', compact('produk', 'kategoriproduks', 'gambarproduks'));
     }
 
     /**
@@ -171,7 +171,7 @@ class ProdukController extends Controller
             }
         }
 
-        return redirect('produk')->with('status', 'Berhasil mengubah produk');
+        return redirect('produk/produk')->with('status', 'Berhasil mengubah produk');
     }
 
     public function destroy($id)
@@ -185,6 +185,6 @@ class ProdukController extends Controller
         }
 
         $produk->delete();
-        return redirect('produk')->with('status', 'Berhasil menghapus produk');
+        return redirect('produk/produk')->with('status', 'Berhasil menghapus produk');
     }
 }

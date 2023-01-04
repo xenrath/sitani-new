@@ -16,8 +16,8 @@ auth()->user()->isAdmin())
   <h5 class="card-header d-flex align-items-start justify-content-between">
     Tabel Kategori Pangan
     <a href="{{ url('pangan/kategori/create') }}" class="btn btn-sm rounded-pill btn-primary">
-      <span class="d-none d-sm-block">Tambah</span>
-      <i class="tf-icons bx bx-plus d-block d-sm-none"></i>
+      <i class="tf-icons bx bx-plus"></i>
+      <span class="d-none d-md-inline">Tambah Kategori</span>
     </a>
   </h5>
   <div class="card-body p-0">
@@ -40,13 +40,13 @@ auth()->user()->isAdmin())
             <td class="text-center">
               <a href="{{ url('pangan/kategori/' . $kategoripangan->id . '/edit') }}"
                 class="btn rounded-pill btn-secondary btn-sm text-white">
-                <span class="d-none d-sm-block">Edit</span>
-                <i class="tf-icons bx bxs-edit d-block d-sm-none"></i>
+                <i class="tf-icons bx bxs-edit"></i>
+                <span class="d-none d-md-inline">Edit</span>
               </a>
               <button type="button" class="btn rounded-pill btn-danger btn-sm text-white" data-bs-toggle="modal"
                 data-bs-target="#modalDelete{{ $kategoripangan->id }}">
-                <span class="d-none d-sm-block">Hapus</span>
-                <i class="tf-icons bx bx-trash d-block d-sm-none"></i>
+                <i class="tf-icons bx bx-trash"></i>
+                <span class="d-none d-md-inline">Hapus</span>
               </button>
             </td>
             <div class="modal fade" id="modalDelete{{ $kategoripangan->id }}" aria-labelledby="modalToggleLabel" tabindex="-1"

@@ -8,10 +8,16 @@ use Illuminate\Database\Eloquent\Model;
 class Berita extends Model
 {
     use HasFactory;
+
     protected $fillable = [
+        'kategoripangan_id',
         'judul',
         'isi',
         'gambar',
-        'date'
     ];
+
+    public function kategoripangan()
+    {
+        return $this->belongsTo(KategoriPangan::class);
+    }
 }

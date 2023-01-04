@@ -38,12 +38,12 @@
     <div>
       <button type="button" class="btn btn-sm rounded-pill btn-outline-primary me-1" data-bs-toggle="modal"
         data-bs-target="#modalImport">
-        <span class="d-none d-md-block">Import Harga Pangan</span>
-        <i class="tf-icons bx bx-upload d-block d-md-none"></i>
+        <i class="tf-icons bx bx-upload"></i>
+        <span class="d-none d-md-inline">Import Harga Pangan</span>
       </button>
       <a href="{{ url('pangan/harga/export') }}" class="btn btn-sm rounded-pill btn-outline-secondary">
-        <span class="d-none d-md-block">Download Format</span>
-        <i class="tf-icons bx bx-download d-block d-md-none"></i>
+        <i class="tf-icons bx bx-download"></i>
+        <span class="d-none d-md-inline">Download Format</span>
       </a>
     </div>
   </h5>
@@ -54,37 +54,17 @@
           <tr>
             <th class="text-center">No</th>
             <th>Nama Pangan</th>
+            <th>Kategori</th>
             <th>Harga</th>
-            <th class="text-center">Opsi</th>
           </tr>
         </thead>
         <tbody class="table-border-bottom-0">
-          @forelse ($hargapangans as $hargapangan)
+          @forelse ($hargapangans as $key => $hargapangan)
           <tr>
-            <td class="text-center">{{ $loop->iteration }}</td>
+            <td class="text-center">{{ $hargapangans->firstItem() + $key }}</td>
             <td>{{ $hargapangan->nama }}</td>
+            <td>{{ $hargapangan->kategoripangan->nama }}</td>
             <td>@rupiah($hargapangan->harga)</td>
-            <td class="text-center">
-              <form method="post" action="{{ url('hargapangan/' . $hargapangan->id) }}"
-                onsubmit="return confirm('Apakah anda yakin akan menghapus data ini?')">
-                @csrf
-                @method('delete')
-                <a href="{{ url('pangan/harga/' . $hargapangan->id)}}"
-                  class="btn rounded-pill btn-info btn-sm text-white">
-                  <span class="d-none d-md-block">Detail</span>
-                  <i class="tf-icons bx bx-show d-block d-md-none"></i>
-                </a>
-                <a href="{{ url('hargapangan/' . $hargapangan->id . '/edit') }}"
-                  class="btn rounded-pill btn-secondary btn-sm text-white">
-                  <span class="d-none d-md-block">Edit</span>
-                  <i class="tf-icons bx bxs-edit d-block d-md-none"></i>
-                </a>
-                <button type="submit" class="btn rounded-pill btn-danger btn-sm text-white">
-                  <span class="d-none d-md-block">Hapus</span>
-                  <i class="tf-icons bx bx-trash-alt d-block d-md-none"></i>
-                </button>
-              </form>
-            </td>
           </tr>
           @empty
           <tr></tr>

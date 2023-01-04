@@ -18,8 +18,8 @@
           <a class="nav-link {{ request()->is('/') ? 'active' : '' }}" href="{{ url('/') }}">Beranda</a>
         </li>
         @if(auth()->check())
-        <li class="nav-item {{ request()->is('produk') ? 'active' : '' }}">
-          <a class="nav-link" href="{{ url('produk') }}">Produk</a>
+        <li class="nav-item {{ request()->is('produk/produk*') ? 'active' : '' }}">
+          <a class="nav-link" href="{{ url('produk/produk') }}">Produk</a>
         </li>
         <li class="nav-item {{ request()->is('berita') ? 'active' : '' }}">
           <a class="nav-link" href="{{ url('berita') }}">Berita</a>

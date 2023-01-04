@@ -79,18 +79,18 @@
     <li class="menu-header small text-uppercase">
       <span class="menu-header-text">Produk</span>
     </li>
-    <li class="menu-item {{ request()->is('k_produk*') ? 'active' : '' }}">
-      <a href="{{ url('k_produk') }}" class="menu-link">
+    <li class="menu-item {{ request()->is('produk/kategori*') ? 'active' : '' }}">
+      <a href="{{ url('produk/kategori') }}" class="menu-link">
         <i class="menu-icon tf-icons bx bx-category"></i>
         <div data-i18n="kategori-produk">Kategori Produk</div>
       </a>
     </li>
-    <li class="menu-item {{ request()->is('produk*') ? 'active' : '' }}">
-      <a href="{{ url('produk') }}" class="menu-link">
+    {{-- <li class="menu-item {{ request()->is('produk/produk*') ? 'active' : '' }}">
+      <a href="{{ url('produk/produk') }}" class="menu-link">
         <i class="menu-icon tf-icons bx bx-category"></i>
-        <div data-i18n="kategori-produk">Data Produk</div>
+        <div data-i18n="produk">Data Produk</div>
       </a>
-    </li>
+    </li> --}}
     <li class="menu-header small text-uppercase">
       <span class="menu-header-text">Pangan</span>
     </li>

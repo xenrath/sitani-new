@@ -18,18 +18,30 @@
     @method('put')
     <div class="card-body">
       <div class="form-group mb-3">
+        <label class="form-label" for="kategoripangan_id">Kategori Pangan *</label>
+        <select class="form-select" id="kategoripangan_id" name="kategoripangan_id">
+          <option value="">- Pilih -</option>
+          @foreach ($kategoripangans as $kategoripangan)
+          <option value="{{ $kategoripangan->id }}" {{ old('kategoripangan_id', $berita->
+            kategoripangan_id)==$kategoripangan->id ? 'selected' : null
+            }}>{{ $kategoripangan->nama }}</option>
+          @endforeach
+        </select>
+      </div>
+      <div class="form-group mb-3">
         <label class="form-label" for="judul">Judul</label>
         <input type="text" class="form-control" name="judul" id="judul" value="{{ old('judul', $berita->judul) }}"
-          placeholder="Masukan Judul" required />
+          placeholder="masukan judul berita" />
       </div>
       <div class="form-group mb-3">
         <label class="form-label" for="isi">Isi</label>
-        <textarea class="form-control" id="isi" rows="3" placeholder="Masukan isi berita" required
+        <textarea class="form-control" id="isi" rows="3" placeholder="masukan isi berita"
           name="isi">{{ old('isi', $berita->isi) }}</textarea>
       </div>
       <div class="form-group mb-3">
-        <label for="formFile" class="form-label">Gambar</label>
-        <input class="form-control" type="file" value="{{ old('gambar', $berita->gambar) }}" name="gambar" id="gambar">
+        <label for="gambar" class="form-label">Gambar</label>
+        <input class="form-control" type="file" name="gambar" id="gambar" accept="image/*">
+        <small>(kosongkan saja jika tidak ingin mengubah)</small>
       </div>
     </div>
     <div class="card-footer float-end">

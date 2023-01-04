@@ -3,12 +3,15 @@
 @section('title', 'Produk')
 
 @section('content')
+@if (auth()->user()->isAdmin())
+
+@else
 <div class="d-flex align-items-start justify-content-between py-3">
   @if (auth()->user()->isPetani())
   <h4 class="fw-bold pb-2">Produk Saya</h4>
-  <a href="{{ url('produk/create') }}" class="btn btn-primary">
-    <span class="d-none d-sm-block">Tambah Produk</span>
-    <i class="tf-icons bx bx-plus d-block d-sm-none"></i>
+  <a href="{{ url('produk/produk/create') }}" class="btn btn-primary">
+    <i class="tf-icons bx bx-plus"></i>
+    <span class="d-none d-md-inline">Tambah Produk</span>
   </a>
   @else
   <h4 class="fw-bold pb-2">
@@ -21,8 +24,7 @@
       @endif
     </span>
   </h4>
-
-  <form action="{{ url('produk') }}" method="get" id="form_kategori">
+  <form action="{{ url('produk/produk') }}" method="get" id="form_kategori">
     <div class="input-group input-group-merge">
       <span class="input-group-text" id="keyword">
         <i class="bx bx-search"></i>
@@ -33,7 +35,6 @@
     </div>
     <input type="hidden" class="form-control" id="kategori_id" name="kategori_id">
   </form>
-
   <div class="btn-group">
     <button type="button" class="btn btn-primary dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
       <i class="bx bx-menu"></i>&nbsp;
@@ -80,9 +81,15 @@
           {{ $produk->deskripsi }}
         </p>
         @if (auth()->user()->isPetani())
-        <a href="{{ url('produk/' . $produk->id . '/edit') }}" class="btn btn-outline-secondary">Ubah Detail</a>
+        <a href="{{ url('produk/produk/' . $produk->id . '/edit') }}" class="btn btn-outline-secondary">
+          <i class="tf-icons bx bxs-edit"></i>
+          <span class="d-none d-md-inline">Ubah Detail</span>
+        </a>
         @else
-        <a href="{{ url('produk/' . $produk->id . '1') }}" class="btn btn-outline-primary">Lihat Detail</a>
+        <a href="{{ url('produk/produk/' . $produk->id) }}" class="btn btn-outline-primary">
+          <i class="tf-icons bx bx-show"></i>
+          <span class="d-none d-md-inline">Lihat Detail</span>
+        </a>
         @endif
       </div>
     </div>
@@ -108,4 +115,5 @@
     form_kategori.submit();
   }
 </script>
+@endif
 @endsection

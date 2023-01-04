@@ -15,8 +15,8 @@
   <h5 class="card-header d-flex align-items-start justify-content-between">
     Tabel Berita
     <a href="{{ url('berita/create') }}" class="btn btn-sm rounded-pill btn-primary">
-      <span class="d-none d-sm-block">Tambah Berita</span>
-      <i class="tf-icons bx bx-plus d-block d-sm-none"></i>
+      <i class="tf-icons bx bx-plus"></i>
+      <span class="d-none d-md-inline">Tambah Berita</span>
     </a>
   </h5>
   <div class="card-body p-0">
@@ -37,21 +37,21 @@
             <td class="text-center align-top">{{ $beritas->firstItem() + $key }}</td>
             <td class="text-wrap align-top">{{ $berita->judul }}</td>
             <td class="text-wrap align-top">{{ $berita->isi }}</td>
-            <td class="align-top">{{ date('d M Y', strtotime($berita->date)) }}</td>
+            <td class="align-top">{{ date('d M Y', strtotime($berita->created_at)) }}</td>
             <td class="text-center align-top">
               <a href="{{ url('berita/' . $berita->id) }}" class="btn rounded-pill btn-info btn-sm text-white">
-                <span class="d-none d-sm-block">Detail</span>
-                <i class="tf-icons bx bx-show d-block d-sm-none"></i>
+                <i class="tf-icons bx bx-show"></i>
+                <span class="d-none d-md-inline">Detail</span>
               </a>
               <a href="{{ url('berita/' . $berita->id . '/edit') }}"
                 class="btn rounded-pill btn-secondary btn-sm text-white">
-                <span class="d-none d-sm-block">Edit</span>
-                <i class="tf-icons bx bxs-edit d-block d-sm-none"></i>
+                <i class="tf-icons bx bxs-edit"></i>
+                <span class="d-none d-md-inline">Edit</span>
               </a>
               <a href="" class="btn rounded-pill btn-danger btn-sm text-white" data-bs-toggle="modal"
                 data-bs-target="#modalDelete{{ $berita->id }}">
-                <span class="d-none d-sm-block">Hapus</span>
-                <i class="tf-icons bx bx-trash-alt d-block d-sm-none"></i>
+                <i class="tf-icons bx bx-trash-alt"></i>
+                <span class="d-none d-md-inline">Hapus</span>
               </a>
             </td>
           </tr>
@@ -137,7 +137,7 @@
                     data-bs-target="#modalBerita{{ $semua->id }}">Baca Selengkapnya</button>
                   @endif
                 </p>
-                <p class="card-text"><small class="text-muted">{{ date('d M Y', strtotime($semua->date)) }}</small></p>
+                <p class="card-text"><small class="text-muted">{{ date('d M Y', strtotime($semua->created_at)) }}</small></p>
               </div>
             </div>
           </div>
@@ -153,8 +153,7 @@
       @foreach ($kategoripangans as $kategoripangan)
       <div class="tab-pane fade" id="{{ $kategoripangan->kategori }}">
         @php
-        $beritas = \App\Models\Berita::where('judul', 'like', "%$kategoripangan->nama%")->orWhere('isi', 'like',
-        "%$kategoripangan->nama%")->get();
+        $beritas = \App\Models\Berita::where('kategoripangan_id', $kategoripangan->id)->get();
         @endphp
         @forelse ($beritas as $berita)
         <div class="card mb-3">
@@ -175,7 +174,7 @@
                     data-bs-target="#modalBerita{{ $berita->id }}">Baca Selengkapnya</button>
                   @endif
                 </p>
-                <p class="card-text"><small class="text-muted">{{ date('d M Y', strtotime($berita->date)) }}</small></p>
+                <p class="card-text"><small class="text-muted">{{ date('d M Y', strtotime($berita->created_at)) }}</small></p>
               </div>
             </div>
           </div>

@@ -7,7 +7,7 @@ use App\Models\KategoriPangan;
 use Illuminate\Http\Request;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Storage;
-
+use Illuminate\Support\Facades\Validator;
 
 class BeritaController extends Controller
 {
@@ -24,6 +24,7 @@ class BeritaController extends Controller
             if ($filterKeyword) {
                 $beritas = Berita::where('judul', 'LIKE', "%$filterKeyword%")->paginate(2);
             }
+
             return view('berita.index', compact('beritas'));
         } else {
             $semuas = Berita::get();
@@ -48,84 +49,104 @@ class BeritaController extends Controller
 
     public function create()
     {
-        return view('berita.create');
+        $kategoripangans = KategoriPangan::get();
+
+        return view('berita.create', compact('kategoripangans'));
     }
 
     public function store(Request $request)
     {
-        $request->validate([
+        $validator = Validator::make($request->all(), [
+            'kategoripangan_id' => 'required',
             'judul' => 'required',
             'isi' => 'required',
-            'gambar' => 'required|nullable|image|mimes:jpeg,jpg,png|max:2048',
+            'gambar' => 'required|image|mimes:jpeg,jpg,png|max:2048',
         ], [
-            'judul.required' => 'Pilih judul terlebih dahulu!',
-            'isi' => 'Masukkan isi berita !',
-            'gambar' => 'Masukkan gambar !'
+            'kategoripangan_id.required' => 'Kategori pangan harus dipilih!',
+            'judul.required' => 'Judul harus diisi!',
+            'isi.required' => 'Isi berita harus diisi!',
+            'gambar.required' => 'Gambar harus ditambahkan!',
+            'gambar.image' => 'Gambar yang dimasukan salah!'
         ]);
-        $now = Carbon::now()->format('d-m-y');
 
-        $fileName = '';
-        if ($request->file('gambar')->isValid()) {
-            $gambar = $request->file('gambar');
-            $extention = $gambar->getClientOriginalExtension();
-            $fileName = "berita/" . date('ymdHis') . "." . $extention;
-            $upload_path = 'public/storage/uploads/berita';
-            $request->file('gambar')->move($upload_path, $fileName);
-            $input['gambar'] = $fileName;
+        if ($validator->fails()) {
+            $error = $validator->errors()->all();
+            return back()->withInput()->with('status', $error);
         }
 
+        $nama = str_replace(' ', '', $request->gambar->getClientOriginalName());
+        $namagambar = 'berita/' . date('mYdHs') . random_int(1, 10) . '_' . $nama;
+        $request->gambar->storeAs('public/uploads', $namagambar);
+
         Berita::create(array_merge($request->all(), [
-            'date' => $now,
-            'gambar' => $fileName,
+            'gambar' => $namagambar,
         ]));
-        return redirect('berita')->with('status', 'Berhasil menambahkan berita');
+
+        return redirect('berita')->with('status', 'Berhasil menambahkan Berita');
     }
 
     public function show($id)
     {
         $berita = Berita::where('id', $id)->first();
+
         return view('berita.show', compact('berita'));
     }
 
     public function edit($id)
     {
         $berita = Berita::where('id', $id)->first();
-        return view('berita.edit', compact('berita'));
+        $kategoripangans = KategoriPangan::get();
+
+        return view('berita.edit', compact('berita', 'kategoripangans'));
     }
 
-    public function update(Request $request, Berita $berita)
+    public function update(Request $request, $id)
     {
-        $request->validate([
+        $validator = Validator::make($request->all(), [
+            'kategoripangan_id' => 'required',
             'judul' => 'required',
             'isi' => 'required',
-            'gambar' => 'sometimes|nullable|image|mimes:jpeg,jpg,png|max:2048',
+            'gambar' => 'nullable|image|mimes:jpeg,jpg,png|max:2048',
         ], [
+            'kategoripangan_id.required' => 'Kategori pangan harus dipilih!',
             'judul.required' => 'judul tidak boleh kosong!',
             'isi.required' => 'isi tidak boleh kosong!',
+            'gambar.image' => 'Gambar yang dimasukan salah!'
         ]);
+
+        if ($validator->fails()) {
+            $error = $validator->errors()->all();
+            return back()->withInput()->with('status', $error);
+        }
+
+        $berita = Berita::findOrFail($id);
 
         if ($request->gambar) {
             Storage::disk('local')->delete('public/uploads/' . $berita->gambar);
             $gambar = str_replace(' ', '', $request->gambar->getClientOriginalName());
-            $namaGambar = "berita/" . date('YmdHis') . "." . $gambar;
-            $request->gambar->storeAs('public/uploads', $namaGambar);
+            $namagambar = "berita/" . date('YmdHis') . "." . $gambar;
+            $request->gambar->storeAs('public/uploads', $namagambar);
         } else {
-            $namaGambar = $berita->gambar;
+            $namagambar = $berita->gambar;
         }
+
         Berita::where('id', $berita->id)
             ->update([
+                'kategoripangan_id' => $request->kategoripangan_id,
                 'judul' => $request->judul,
                 'isi' => $request->isi,
-                'gambar' => $namaGambar,
+                'gambar' => $namagambar,
             ]);
 
-        return redirect('berita')->with('status', 'Berhasil memperbarui berita');
+        return redirect('berita')->with('status', 'Berhasil memperbarui Berita');
     }
 
     public function destroy($id)
     {
         $berita = Berita::find($id);
+        Storage::disk('local')->delete('public/uploads/' . $berita->gambar);
         $berita->delete();
+        
         return redirect('berita')->with('status', 'Berhasil menghapus Berita');
     }
 }

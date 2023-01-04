@@ -34,8 +34,10 @@ Route::post('register', [UserController::class, 'register']);
 Route::get('profile', [ProfileController::class, 'index']);
 Route::post('profile', [ProfileController::class, 'update']);
 
-Route::resource('produk', ProdukController::class);
-Route::resource('k_produk', KategoriProdukController::class);
+Route::prefix('produk')->group(function () {
+  Route::resource('kategori', KategoriProdukController::class);
+  Route::resource('produk', ProdukController::class);
+});
 
 Route::get('hapus-gambar/{id}', [GambarProdukController::class, 'hapus_gambar']);
 
@@ -46,6 +48,6 @@ Route::prefix('pangan')->group(function () {
   Route::post('harga/import', [HargaPanganController::class, 'import']);
   Route::get('harga/export', [HargaPanganController::class, 'export']);
   Route::resource('harga', HargaPanganController::class);
-  Route::get('riwayat/download/{id}', [RiwayatPanganController::class, 'download']);
+  Route::get('riwayat/{id}/download', [RiwayatPanganController::class, 'download']);
   Route::resource('riwayat', RiwayatPanganController::class);
 });

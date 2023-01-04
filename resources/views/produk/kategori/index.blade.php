@@ -9,9 +9,9 @@ auth()->user()->isAdmin())
 <div class="card">
   <h5 class="card-header d-flex align-items-start justify-content-between">
     Tabel Kategori
-    <a href="{{ url('k_produk/create') }}" class="btn btn-sm rounded-pill btn-primary">
-      <span class="d-none d-sm-block">Tambah Kategori</span>
-      <i class="tf-icons bx bx-plus d-block d-sm-none"></i>
+    <a href="{{ url('produk/kategori/create') }}" class="btn btn-sm rounded-pill btn-primary">
+      <i class="tf-icons bx bx-plus"></i>
+      <span class="d-none d-md-inline">Tambah Kategori</span>
     </a>
   </h5>
   <div class="card-body p-0">
@@ -30,25 +30,44 @@ auth()->user()->isAdmin())
             <td class="text-center">{{ $kategoriproduks->firstItem() + $key }}</td>
             <td>{{ $kategoriproduk->nama }}</td>
             <td class="text-center">
-              <form method="post" action="{{ url('k_produk/' . $kategoriproduk->id) }}"
-                onsubmit="return confirm('Apakah anda yakin akan menghapus data ini?')">
-                @csrf
-                @method('delete')
-                <a href="{{ url('k_produk/' . $kategoriproduk->id) }}"
-                  class="btn rounded-pill btn-info btn-sm text-white">
-                  <span class="d-none d-sm-block">Detail</span>
-                  <i class="tf-icons bx bx-show d-block d-sm-none"></i>
-                </a>
-                <a href="{{ url('k_produk/' . $kategoriproduk->id . '/edit') }}"
-                  class="btn rounded-pill btn-secondary btn-sm text-white">
-                  <span class="d-none d-sm-block">Edit</span>
-                  <i class="tf-icons bx bxs-edit d-block d-sm-none"></i>
-                </a>
-                <button type="submit" class="btn rounded-pill btn-danger btn-sm text-white">
-                  <span class="d-none d-sm-block">Hapus</span>
-                  <i class="tf-icons bx bx-trash d-block d-sm-none"></i>
-                </button>
-              </form>
+              <a href="{{ url('produk/kategori/' . $kategoriproduk->id . '/edit') }}"
+                class="btn rounded-pill btn-secondary btn-sm text-white">
+                <i class="tf-icons bx bxs-edit"></i>
+                <span class="d-none d-md-inline">Edit</span>
+              </a>
+              <a href="" class="btn rounded-pill btn-danger btn-sm text-white" data-bs-toggle="modal"
+                data-bs-target="#modalDelete{{ $kategoriproduk->id }}">
+                <i class="tf-icons bx bx-trash-alt"></i>
+                <span class="d-none d-md-inline">Hapus</span>
+              </a>
+              <div class="modal fade" id="modalDelete{{ $kategoriproduk->id }}" aria-labelledby="modalToggleLabel"
+                tabindex="-1" style="display: none" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered modal-sm">
+                  <div class="modal-content">
+                    <div class="modal-header">
+                      <h5 class="modal-title" id="modalToggleLabel">Hapus</h5>
+                      <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">Yakin hapus Kategori Produk
+                      <strong>{{ $kategoriproduk->nama }}</strong>?
+                    </div>
+                    <div class="modal-footer">
+                      <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">
+                        Batal
+                      </button>
+                      <button type="button" class="btn btn-primary"
+                        onclick="event.preventDefault(); document.getElementById('delete{{ $kategoriproduk->id }}').submit();">
+                        Ya
+                      </button>
+                      <form action="{{ url('produk/kategori/' . $kategoriproduk->id) }}" method="POST"
+                        id="delete{{ $kategoriproduk->id }}">
+                        @csrf
+                        @method('delete')
+                      </form>
+                    </div>
+                  </div>
+                </div>
+              </div>
             </td>
           </tr>
           @empty

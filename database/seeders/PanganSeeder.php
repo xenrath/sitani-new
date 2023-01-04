@@ -3,6 +3,7 @@
 namespace Database\Seeders;
 
 use App\Models\Pangan;
+use Carbon\Carbon;
 use Illuminate\Database\Seeder;
 
 class PanganSeeder extends Seeder
@@ -15,7 +16,8 @@ class PanganSeeder extends Seeder
     public function run()
     {
         $pangans = [
-            'file' => 'test.csv'
+            'file' => 'file/hargapangan.xlsx',
+            'created_at' => Carbon::now()
         ];
 
         Pangan::insert($pangans);

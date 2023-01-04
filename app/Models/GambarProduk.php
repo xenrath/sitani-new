@@ -16,7 +16,7 @@ class GambarProduk extends Model
         'gambar',
     ];
 
-    public function produks()
+    public function produk()
     {
         return $this->belongsTo(Produk::class);
     }

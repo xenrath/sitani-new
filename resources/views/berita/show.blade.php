@@ -17,28 +17,36 @@
       </div>
       <hr class="my-1" />
       <div class="card-body">
-        <div class="row mb-2">
-          <label class="col-sm-4">
-            <h5>Judul Berita</h5>
-          </label>
-          <div class="col-sm-8">
-            <p>{{ $berita->judul }}</p>
+        <div class="row">
+          <div class="col-4">
+            <img src="{{ asset('storage/uploads/' . $berita->gambar) }}" alt="{{ $berita->judul }}"
+              class="w-100 rounded">
           </div>
-        </div>
-        <div class="row mb-2">
-          <label class="col-sm-4">
-            <h5>Isi</h5>
-          </label>
-          <div class="col-sm-8">
-            <p>{{ $berita->isi }}</p>
-          </div>
-        </div>
-        <div class="row mb-2">
-          <label class="col-sm-4">
-            <h5>Tanggal</h5>
-          </label>
-          <div class="col-sm-8">
-            <p>{{ date('d-m-Y', strtotime($berita->date)) }}</p>
+          <div class="col-8">
+            <div class="row mb-2">
+              <label class="col-sm-4">
+                <h5>Judul Berita</h5>
+              </label>
+              <div class="col-sm-8">
+                <p>{{ $berita->judul }}</p>
+              </div>
+            </div>
+            <div class="row mb-2">
+              <label class="col-sm-4">
+                <h5>Isi</h5>
+              </label>
+              <div class="col-sm-8">
+                <p>{{ $berita->isi }}</p>
+              </div>
+            </div>
+            <div class="row mb-2">
+              <label class="col-sm-4">
+                <h5>Tanggal</h5>
+              </label>
+              <div class="col-sm-8">
+                <p>{{ date('d M Y', strtotime($berita->created_at)) }}</p>
+              </div>
+            </div>
           </div>
         </div>
       </div>

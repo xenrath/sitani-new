@@ -39,7 +39,7 @@ auth()->user()->isAdmin())
               </a>
             </td>
             <td>
-              <a href="{{ url('pangan/riwayat/' . $pangan->id) }}" class="btn rounded-pill btn-outline-secondary btn-sm">
+              <a href="{{ url('pangan/riwayat/' . $pangan->id . '/download') }}" class="btn rounded-pill btn-outline-secondary btn-sm">
                 <span class="d-none d-md-block">Unduh</span>
                 <i class="tf-icons bx bxs-download d-block d-md-none"></i>
               </a>

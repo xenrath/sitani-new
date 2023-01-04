@@ -39,7 +39,7 @@
               @forelse ($hargapangans as $hargapangan)
               <tr>
                 <td class="text-center">{{ $loop->iteration }}</td>
-                <td>{{ $hargapangan->kategoris->nama }}</td>
+                <td>{{ $hargapangan->kategoripangan->nama }}</td>
                 <td>{{ $hargapangan->nama }}</td>
                 <td>@rupiah($hargapangan->harga)</td>
               </tr>
@@ -50,8 +50,9 @@
           </table>
         </div>
         <div class="p-4 float-end">
-          <a href="{{ url('pangan/riwayat/download/' . $pangan->id) }}" class="btn btn-outline-secondary">
-            Unduh
+          <a href="{{ url('pangan/riwayat/' . $pangan->id . '/download') }}" class="btn btn-secondary">
+            <i class="tf-icons bx bx-download"></i>
+            <span class="d-none d-md-inline">Unduh</span>
           </a>
         </div>
       </div>

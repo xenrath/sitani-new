@@ -38,14 +38,16 @@
       </div>
       <div class="form-group mb-3">
         <label class="form-label" for="nama">Nama Lengkap *</label>
-        <input type="text" class="form-control" name="nama" id="nama" placeholder="Masukan nama"
+        <input type="text" class="form-control" name="nama" id="nama" onkeypress="return ((event.charCode >= 65 && event.charCode <= 90) || (event.charCode >= 97 && event.charCode <= 122) || (event.charCode == 32))" placeholder="Masukan nama"
           value="{{ old('nama') }}" />
       </div>
       <div class="form-group mb-3">
         <label class="form-label" for="telp">No. Telepon *</label>
         <div class="input-group input-group-merge">
           <span class="input-group-text">+62</span>
-          <input type="text" id="telp" name="telp" class="form-control" value="{{ old('telp') }}" />
+          <input type="text" id="telp" name="telp" class="form-control"
+            oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');"
+            value="{{ old('telp') }}" />
         </div>
       </div>
       <div class="form-group mb-3">
@@ -54,7 +56,7 @@
       </div>
       <div class="form-group mb-3">
         <label class="form-label" for="foto">Foto *</label>
-        <input type="file" class="form-control" name="foto" id="foto" />
+        <input type="file" class="form-control" name="foto" id="foto" accept="image/*" />
       </div>
     </div>
     <div class="card-footer float-end">
