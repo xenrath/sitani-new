@@ -12,4 +12,9 @@ class Pangan extends Model
     protected $fillable = [
         'file'
     ];
+
+    public function hargapangans()
+    {
+        return $this->hasMany(HargaPangan::class);
+    }
 }

@@ -26,8 +26,8 @@ class HargaPanganController extends Controller
      */
     public function create()
     {
-        $kategorihargas = KategoriPangan::all();
-        return view('pangan.harga.create', compact('kategorihargas'));
+        // $kategorihargas = KategoriPangan::all();
+        // return view('pangan.harga.create', compact('kategorihargas'));
     }
 
     /**
@@ -79,9 +79,9 @@ class HargaPanganController extends Controller
      */
     public function edit($id)
     {
-        $kategorihargas = KategoriHarga::all();
-        $hargapangan = HargaPangan::where('id', $id)->first();
-        return view('pangan.harga.edit', compact('hargapangan', 'kategorihargas'));
+        // $kategorihargas = KategoriHarga::all();
+        // $hargapangan = HargaPangan::where('id', $id)->first();
+        // return view('pangan.harga.edit', compact('hargapangan', 'kategorihargas'));
     }
 
     /**

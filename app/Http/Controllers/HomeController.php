@@ -35,10 +35,10 @@ class HomeController extends Controller
             return redirect('dashboard');
         }
 
-        $pangan = Pangan::latest()->first();
-        $hargapangans = HargaPangan::where('pangan_id', $pangan->id)->paginate(5);
+        $pangans = Pangan::orderByDesc('created_at')->paginate(1);
+        // $hargapangans = HargaPangan::where('pangan_id', $pangan->id)->get();
 
-        return view('home', compact('pangan', 'hargapangans'));
+        return view('home', compact('pangans'));
     }
 
     public function dashboard()

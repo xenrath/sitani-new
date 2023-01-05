@@ -36,6 +36,7 @@
   </a>
 </div>
 <div class="card">
+  @foreach ($pangans as $pangan)
   <h5 class="card-header">Tabel Harga Pangan | {{ date('d M Y', strtotime($pangan->created_at)) }}</h5>
   <div class="table-responsive text-nowrap mb-5">
     <table class="table table-hover">
@@ -48,9 +49,9 @@
         </tr>
       </thead>
       <tbody>
-        @foreach ($hargapangans as $key => $hargapangan)
+        @foreach ($pangan->hargapangans as $hargapangan)
         <tr>
-          <td class="text-center">{{ $hargapangans->firstItem() + $key }}</td>
+          <td class="text-center">{{ $loop->iteration }}</td>
           <td>{{ $hargapangan->kategoripangan->kategori }}</td>
           <td>{{ $hargapangan->nama }}</td>
           <td>@rupiah($hargapangan->harga)</td>
@@ -58,6 +59,12 @@
         @endforeach
       </tbody>
     </table>
+  </div>
+  @endforeach
+  <div class="card-footer">
+    <div class="pagination float-end">
+      {{ $pangans->appends(Request::all())->links('pagination::bootstrap-4') }}
+    </div>
   </div>
 </div>
 @endsection
