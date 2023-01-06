@@ -36,8 +36,8 @@ class KategoriPanganSeeder extends Seeder
                 'nama' => 'Kedelai',
             ],
             [
-                'kategori' => 'UJL',
-                'nama' => 'Ubi Jalar',
+                'kategori' => 'UJG',
+                'nama' => 'Ubi Jagung',
             ],
         ];
 

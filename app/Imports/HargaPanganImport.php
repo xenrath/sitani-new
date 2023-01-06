@@ -19,6 +19,8 @@ class HargaPanganImport implements
 {
     use Importable, SkipsFailures;
 
+    protected $pangan_id = null;
+
     public function __construct($pangan_id)
     {
         $this->pangan_id = $pangan_id;
