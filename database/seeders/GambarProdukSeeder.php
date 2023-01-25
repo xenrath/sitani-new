@@ -29,22 +29,46 @@ class GambarProdukSeeder extends Seeder
             ],
             [
                 'produk_id' => '4',
-                'gambar' => 'produk/jagung.jpg',
+                'gambar' => 'produk/cabemerahkeriting.jpg',
             ],
             [
                 'produk_id' => '5',
-                'gambar' => 'produk/bawangmerah.jpg',
+                'gambar' => 'produk/jagung.jpg',
             ],
             [
                 'produk_id' => '6',
-                'gambar' => 'produk/bawangputih.jpg',
+                'gambar' => 'produk/jagung.jpg',
             ],
             [
                 'produk_id' => '7',
-                'gambar' => 'produk/kedelai.jpg',
+                'gambar' => 'produk/bawangmerah.jpg',
             ],
             [
                 'produk_id' => '8',
+                'gambar' => 'produk/bawangmerah.jpg',
+            ],
+            [
+                'produk_id' => '9',
+                'gambar' => 'produk/bawangputih.jpg',
+            ],
+            [
+                'produk_id' => '10',
+                'gambar' => 'produk/bawangputih.jpg',
+            ],
+            [
+                'produk_id' => '11',
+                'gambar' => 'produk/kedelai.jpg',
+            ],
+            [
+                'produk_id' => '12',
+                'gambar' => 'produk/kedelai.jpg',
+            ],
+            [
+                'produk_id' => '13',
+                'gambar' => 'produk/ubijalar.jpg',
+            ],
+            [
+                'produk_id' => '14',
                 'gambar' => 'produk/ubijalar.jpg',
             ],
         ];

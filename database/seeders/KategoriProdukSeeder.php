@@ -16,10 +16,10 @@ class KategoriProdukSeeder extends Seeder
     {
        $data = [
             [
-                'nama' => 'Produk Biasa',
+                'nama' => 'Biasa',
             ],
             [
-                'nama' => 'Produk Tebas',
+                'nama' => 'Tebas',
             ],
         ];
 

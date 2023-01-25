@@ -76,7 +76,10 @@
       <img class="card-img-top" src="{{ asset('storage/uploads/' . $produk->gambar->first()->gambar) }}"
         alt="{{ $produk->nama }}" height="200px" style="object-position: center; object-fit: none;" />
       <div class="card-body">
-        <h5 class="card-title">{{ $produk->nama }}</h5>
+        <h5 class="card-title">
+          {{ $produk->nama }}
+          <span class="badge bg-label-primary">{{ $produk->kategori->nama }}</span>
+        </h5>
         <p class="card-text">
           {{ $produk->deskripsi }}
         </p>

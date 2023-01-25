@@ -23,6 +23,7 @@ class CreateProduksTable extends Migration
             $table->foreign('kategori_id')->references('id')->on('kategori_produks');
             $table->string('stok');
             $table->string('deskripsi');
+            $table->boolean('status')->default(true);
             $table->timestamps();
         });
     }

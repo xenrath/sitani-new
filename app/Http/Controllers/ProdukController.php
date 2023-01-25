@@ -6,6 +6,7 @@ use App\Models\GambarProduk;
 use App\Models\KategoriProduk;
 use Illuminate\Http\Request;
 use App\Models\Produk;
+use App\Models\Transaksi;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
 
@@ -23,21 +24,33 @@ class ProdukController extends Controller
 
         $keyword = $request->keyword;
 
-        if ($keyword != "" && $kategori_id != "") {
-            $produks = Produk::where([
-                ['kategori_id', $kategori_id],
-                ['nama', 'like', "%$keyword%"],
-            ])->with('gambar')->get();
-        } elseif ($keyword != "" && $kategori_id == "") {
-            $produks = Produk::where('nama', 'like', "%$keyword%")->with('gambar')->get();
-        } elseif ($keyword == "" && $kategori_id != "") {
-            $produks = Produk::where('kategori_id', $kategori_id)->with('gambar')->get();
+        if (auth()->user()->isTengkulak()) {
+            if ($keyword != "" && $kategori_id != "") {
+                $produks = Produk::where([
+                    ['status', true],
+                    ['kategori_id', $kategori_id],
+                    ['nama', 'like', "%$keyword%"],
+                ])->with('gambar')->get();
+            } elseif ($keyword != "" && $kategori_id == "") {
+                $produks = Produk::where([
+                    ['status', true],
+                    ['nama', 'like', "%$keyword%"]
+                ])->with('gambar')->get();
+            } elseif ($keyword == "" && $kategori_id != "") {
+                $produks = Produk::where([
+                    ['status', true],
+                    ['kategori_id', $kategori_id]
+                ])->with('gambar')->get();
+            } else {
+                $produks = Produk::where('status', true)->with('gambar')->get();
+            }
         } else {
             $produks = Produk::with('gambar')->get();
         }
 
         // return response($produks);
         $kategoriproduks = KategoriProduk::get();
+
         return view('produk.produk.index', compact('produks', 'kategoriproduk', 'kategoriproduks'));
     }
 
@@ -186,5 +199,39 @@ class ProdukController extends Controller
 
         $produk->delete();
         return redirect('produk/produk')->with('status', 'Berhasil menghapus produk');
+    }
+
+    public function konfirmasi(Request $request, $id)
+    {
+        $produk = Produk::where('id', $id)->first();
+        $user = auth()->user();
+
+        $jumlah = $request->jumlah;
+        $total = $produk->harga * $jumlah;
+
+        $basic = "Permisi, Saya " . $user->nama . " dari " . $user->alamat .
+            ".%0ASaya tertarik dengan produk " . $produk->nama . " (" . $produk->kategori->nama .
+            ") Anda ";
+
+        if ($produk->kategori->nama == 'Biasa') {
+            $text = $basic . "sejumlah " . $jumlah . "Kg, dengan harga " . $total;
+        } else {
+            $text = $basic . "dengan harga " . $produk->harga;
+        }
+
+        $stok = $produk->stok - $request->jumlah;
+
+        Produk::where('id', $produk->id)->update([
+            'stok' => $stok
+        ]);
+
+        Transaksi::create([
+            'tengkulak_id' => $user->id,
+            'produk_id' => $produk->id,
+            'jumlah' => $jumlah,
+            'status' => 'menunggu'
+        ]);
+
+        return redirect()->away('https://web.whatsapp.com/send?phone=+6285328481969&text=' . $text);
     }
 }

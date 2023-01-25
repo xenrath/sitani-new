@@ -10,6 +10,7 @@ use App\Http\Controllers\KategoriPanganController;
 use App\Http\Controllers\KategoriProdukController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\RiwayatPanganController;
+use App\Http\Controllers\TransaksiController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
@@ -36,7 +37,14 @@ Route::post('profile', [ProfileController::class, 'update']);
 
 Route::prefix('produk')->group(function () {
   Route::resource('kategori', KategoriProdukController::class);
+  Route::post('produk/konfirmasi/{id}', [ProdukController::class, 'konfirmasi']);
   Route::resource('produk', ProdukController::class);
+});
+
+Route::prefix('transaksi')->group(function () {
+  Route::get('/', [TransaksiController::class, 'index']);
+  Route::get('konfirmasi/{id}', [TransaksiController::class, 'konfirmasi']);
+  Route::get('batalkan/{id}', [TransaksiController::class, 'batalkan']);
 });
 
 Route::get('hapus-gambar/{id}', [GambarProdukController::class, 'hapus_gambar']);

@@ -24,6 +24,14 @@
         <li class="nav-item {{ request()->is('berita') ? 'active' : '' }}">
           <a class="nav-link" href="{{ url('berita') }}">Berita</a>
         </li>
+        @if (auth()->user()->isPetani())
+        <li class="nav-item">
+          <a class="nav-link">|</a>
+        </li>
+        <li class="nav-item {{ request()->is('transaksi') ? 'active' : '' }}">
+          <a class="nav-link" href="{{ url('transaksi') }}">Transaksi</a>
+        </li>
+        @endif
         @endif
         @endif
       </ul>
