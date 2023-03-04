@@ -28,34 +28,36 @@ use Illuminate\Support\Facades\Route;
 Auth::routes();
 
 Route::get('/', [HomeController::class, 'index']);
-Route::get('dashboard', [HomeController::class, 'dashboard'])->middleware('admin');
+Route::get('home', [HomeController::class, 'home']);
 
-Route::resource('user', UserController::class);
 Route::post('register', [UserController::class, 'register']);
 Route::get('profile', [ProfileController::class, 'index']);
 Route::post('profile', [ProfileController::class, 'update']);
 
-Route::prefix('produk')->group(function () {
-  Route::resource('kategori', KategoriProdukController::class);
-  Route::post('produk/konfirmasi/{id}', [ProdukController::class, 'konfirmasi']);
-  Route::resource('produk', ProdukController::class);
+Route::middleware('admin')->prefix('admin')->group(function () {
+  Route::get('/', [\App\Http\Controllers\Admin\DashboardController::class, 'index']);
+  Route::resource('user', \App\Http\Controllers\Admin\UserController::class);
+  Route::resource('berita', \App\Http\Controllers\Admin\BeritaController::class);
+  Route::resource('kategori-produk', \App\Http\Controllers\Admin\KategoriProdukController::class);
+  Route::resource('kategori-pangan', \App\Http\Controllers\Admin\KategoriPanganController::class);
+  Route::post('harga-pangan/import', [\App\Http\Controllers\Admin\HargaPanganController::class, 'import']);
+  Route::get('harga-pangan/export', [\App\Http\Controllers\Admin\HargaPanganController::class, 'export']);
+  Route::resource('harga-pangan', \App\Http\Controllers\Admin\HargaPanganController::class);
+  Route::get('riwayat-pangan/{id}/download', [\App\Http\Controllers\Admin\RiwayatPanganController::class, 'download']);
+  Route::resource('riwayat-pangan', \App\Http\Controllers\Admin\RiwayatPanganController::class);
 });
 
-Route::prefix('transaksi')->group(function () {
-  Route::get('/', [TransaksiController::class, 'index']);
-  Route::get('konfirmasi/{id}', [TransaksiController::class, 'konfirmasi']);
-  Route::get('batalkan/{id}', [TransaksiController::class, 'batalkan']);
+Route::middleware('petani')->prefix('petani')->group(function () {
+  Route::get('/', [\App\Http\Controllers\Petani\DashboardController::class, 'index']);
+  Route::resource('produk', \App\Http\Controllers\Petani\ProdukController::class);
+  Route::get('berita', [\App\Http\Controllers\Petani\BeritaController::class, 'index']);
+  Route::get('transaksi', [\App\Http\Controllers\Petani\TransaksiController::class, 'index']);
+  Route::get('transaksi/konfirmasi/{id}', [\App\Http\Controllers\Petani\TransaksiController::class, 'konfirmasi']);
+  Route::get('transaksi/batalkan/{id}', [\App\Http\Controllers\Petani\TransaksiController::class, 'batalkan']);
 });
 
-Route::get('hapus-gambar/{id}', [GambarProdukController::class, 'hapus_gambar']);
-
-Route::resource('berita', BeritaController::class);
-
-Route::prefix('pangan')->group(function () {
-  Route::resource('kategori', KategoriPanganController::class);
-  Route::post('harga/import', [HargaPanganController::class, 'import']);
-  Route::get('harga/export', [HargaPanganController::class, 'export']);
-  Route::resource('harga', HargaPanganController::class);
-  Route::get('riwayat/{id}/download', [RiwayatPanganController::class, 'download']);
-  Route::resource('riwayat', RiwayatPanganController::class);
+Route::middleware('tengkulak')->prefix('tengkulak')->group(function () {
+  Route::get('/', [\App\Http\Controllers\Tengkulak\DashboardController::class, 'index']);
+  Route::resource('produk', \App\Http\Controllers\Tengkulak\ProdukController::class);
+  Route::get('berita', [\App\Http\Controllers\Tengkulak\BeritaController::class, 'index']);
 });

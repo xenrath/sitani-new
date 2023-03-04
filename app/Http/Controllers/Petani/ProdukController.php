@@ -1,7 +1,8 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Petani;
 
+use App\Http\Controllers\Controller;
 use App\Models\GambarProduk;
 use App\Models\KategoriProduk;
 use Illuminate\Http\Request;
@@ -12,11 +13,6 @@ use Illuminate\Support\Facades\Validator;
 
 class ProdukController extends Controller
 {
-    public function __construct()
-    {
-        $this->middleware('auth');
-    }
-
     public function index(Request $request)
     {
         $kategori_id = $request->kategori_id;
@@ -103,7 +99,7 @@ class ProdukController extends Controller
             }
         }
 
-        return redirect('produk/produk')->with('status', 'Berhasil menambahkan Produk');
+        return redirect('petani/produk')->with('status', 'Berhasil menambahkan Produk');
     }
 
     /**
@@ -142,7 +138,7 @@ class ProdukController extends Controller
         $validator = Validator::make($request->all(), [
             'nama' => 'required',
             'kategori_id' => 'required',
-            'harga' => 'required|gt',
+            'harga' => 'required|gt:0',
             'stok' => 'required',
             'deskripsi' => 'required',
         ], [
@@ -184,7 +180,7 @@ class ProdukController extends Controller
             }
         }
 
-        return redirect('produk/produk')->with('status', 'Berhasil mengubah produk');
+        return redirect('petani/produk')->with('status', 'Berhasil mengubah produk');
     }
 
     public function destroy($id)
@@ -198,7 +194,7 @@ class ProdukController extends Controller
         }
 
         $produk->delete();
-        return redirect('produk/produk')->with('status', 'Berhasil menghapus produk');
+        return redirect('petani/produk')->with('status', 'Berhasil menghapus produk');
     }
 
     public function konfirmasi(Request $request, $id)

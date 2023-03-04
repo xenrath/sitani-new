@@ -12,26 +12,32 @@
     </button>
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
       <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-        @if (auth()->check() && auth()->user()->isAdmin())
-        @else
         <li class="nav-item">
-          <a class="nav-link {{ request()->is('/') ? 'active' : '' }}" href="{{ url('/') }}">Beranda</a>
+          <a class="nav-link {{ request()->is('/') || request()->is('petani') || request()->is('tengkulak')  ? 'active' : '' }}"
+            href="{{ url('/') }}">Beranda</a>
         </li>
         @if(auth()->check())
-        <li class="nav-item {{ request()->is('produk/produk*') ? 'active' : '' }}">
-          <a class="nav-link" href="{{ url('produk/produk') }}">Produk</a>
-        </li>
-        <li class="nav-item {{ request()->is('berita') ? 'active' : '' }}">
-          <a class="nav-link" href="{{ url('berita') }}">Berita</a>
-        </li>
         @if (auth()->user()->isPetani())
+        <li class="nav-item {{ request()->is('petani/produk*') ? 'active' : '' }}">
+          <a class="nav-link" href="{{ url('petani/produk') }}">Produk</a>
+        </li>
+        <li class="nav-item {{ request()->is('petani/berita') ? 'active' : '' }}">
+          <a class="nav-link" href="{{ url('petani/berita') }}">Berita</a>
+        </li>
         <li class="nav-item">
           <a class="nav-link">|</a>
         </li>
-        <li class="nav-item {{ request()->is('transaksi') ? 'active' : '' }}">
-          <a class="nav-link" href="{{ url('transaksi') }}">Transaksi</a>
+        <li class="nav-item {{ request()->is('petani/transaksi') ? 'active' : '' }}">
+          <a class="nav-link" href="{{ url('petani/transaksi') }}">Transaksi</a>
         </li>
         @endif
+        @if (auth()->user()->isTengkulak())
+        <li class="nav-item {{ request()->is('tengkulak/produk*') ? 'active' : '' }}">
+          <a class="nav-link" href="{{ url('tengkulak/produk') }}">Produk</a>
+        </li>
+        <li class="nav-item {{ request()->is('tengkulak/berita') ? 'active' : '' }}">
+          <a class="nav-link" href="{{ url('tengkulak/berita') }}">Berita</a>
+        </li>
         @endif
         @endif
       </ul>

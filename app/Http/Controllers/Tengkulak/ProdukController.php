@@ -1,7 +1,8 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Tengkulak;
 
+use App\Http\Controllers\Controller;
 use App\Models\GambarProduk;
 use App\Models\KategoriProduk;
 use Illuminate\Http\Request;
@@ -12,11 +13,6 @@ use Illuminate\Support\Facades\Validator;
 
 class ProdukController extends Controller
 {
-    public function __construct()
-    {
-        $this->middleware('auth');
-    }
-
     public function index(Request $request)
     {
         $kategori_id = $request->kategori_id;
@@ -51,13 +47,13 @@ class ProdukController extends Controller
         // return response($produks);
         $kategoriproduks = KategoriProduk::get();
 
-        return view('petani.produk.index', compact('produks', 'kategoriproduk', 'kategoriproduks'));
+        return view('tengkulak.produk.index', compact('produks', 'kategoriproduk', 'kategoriproduks'));
     }
 
     public function create()
     {
         $kategoriproduks = KategoriProduk::all();
-        return view('petani.produk.create', compact('kategoriproduks'));
+        return view('tengkulak.produk.create', compact('kategoriproduks'));
     }
 
     public function store(Request $request)
@@ -103,7 +99,7 @@ class ProdukController extends Controller
             }
         }
 
-        return redirect('produk/produk')->with('status', 'Berhasil menambahkan Produk');
+        return redirect('tengkulak/produk')->with('status', 'Berhasil menambahkan Produk');
     }
 
     /**
@@ -114,7 +110,7 @@ class ProdukController extends Controller
      */
     public function show(Produk $produk)
     {
-        return view('petani.produk.show', compact('produk'));
+        return view('tengkulak.produk.show', compact('produk'));
     }
     /**
      * Show the form for editing the specified resource.
@@ -127,7 +123,7 @@ class ProdukController extends Controller
         $kategoriproduks = Kategoriproduk::all();
         $gambarproduks = GambarProduk::where('produk_id', $produk->id)->get();
 
-        return view('petani.produk.edit', compact('produk', 'kategoriproduks', 'gambarproduks'));
+        return view('tengkulak.produk.edit', compact('produk', 'kategoriproduks', 'gambarproduks'));
     }
 
     /**
@@ -142,7 +138,7 @@ class ProdukController extends Controller
         $validator = Validator::make($request->all(), [
             'nama' => 'required',
             'kategori_id' => 'required',
-            'harga' => 'required|gt',
+            'harga' => 'required|gt:0',
             'stok' => 'required',
             'deskripsi' => 'required',
         ], [
@@ -184,7 +180,7 @@ class ProdukController extends Controller
             }
         }
 
-        return redirect('produk/produk')->with('status', 'Berhasil mengubah produk');
+        return redirect('tengkulak/produk')->with('status', 'Berhasil mengubah produk');
     }
 
     public function destroy($id)
@@ -198,7 +194,7 @@ class ProdukController extends Controller
         }
 
         $produk->delete();
-        return redirect('produk/produk')->with('status', 'Berhasil menghapus produk');
+        return redirect('tengkulak/produk')->with('status', 'Berhasil menghapus produk');
     }
 
     public function konfirmasi(Request $request, $id)

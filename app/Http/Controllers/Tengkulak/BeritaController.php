@@ -1,11 +1,11 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Tengkulak;
 
+use App\Http\Controllers\Controller;
 use App\Models\Berita;
 use App\Models\KategoriPangan;
 use Illuminate\Http\Request;
-use Carbon\Carbon;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
 
@@ -18,33 +18,10 @@ class BeritaController extends Controller
 
     public function index(Request $request)
     {
-        if (auth()->user()->isAdmin()) {
-            $beritas = Berita::paginate(2);
-            $filterKeyword = $request->get('keyword');
-            if ($filterKeyword) {
-                $beritas = Berita::where('judul', 'LIKE', "%$filterKeyword%")->paginate(2);
-            }
+        $semuas = Berita::get();
+        $kategoripangans = KategoriPangan::get();
 
-            return view('admin.berita.index', compact('beritas'));
-        } else {
-            $semuas = Berita::get();
-            // $berases = Berita::where('judul', 'like', '%beras%')
-            //     ->orWhere('isi', 'like', '%beras%')
-            //     ->get();
-            // $cabais = Berita::where('judul', 'like', '%cabai%')
-            //     ->orWhere('isi', 'like', '%cabai%')
-            //     ->get();
-            // $jagungs = Berita::where('judul', 'like', '%jagung%')
-            //     ->orWhere('isi', 'like', '%jagung%')
-            //     ->get();
-            // $padis = Berita::where('judul', 'like', '%padi%')
-            //     ->orWhere('isi', 'like', '%padi%')
-            //     ->get();
-
-            $kategoripangans = KategoriPangan::get();
-
-            return view('admin.berita.index', compact('semuas', 'kategoripangans'));
-        }
+        return view('tengkulak.berita.index', compact('semuas', 'kategoripangans'));
     }
 
     public function create()
@@ -146,7 +123,7 @@ class BeritaController extends Controller
         $berita = Berita::find($id);
         Storage::disk('local')->delete('public/uploads/' . $berita->gambar);
         $berita->delete();
-        
+
         return redirect('berita')->with('status', 'Berhasil menghapus Berita');
     }
 }

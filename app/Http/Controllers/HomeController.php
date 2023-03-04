@@ -30,15 +30,32 @@ class HomeController extends Controller
      */
     public function index()
     {
-        if (auth()->check() && auth()->user()->isAdmin())
-        {
-            return redirect('dashboard');
-        }
-
         $pangans = Pangan::orderByDesc('created_at')->paginate(1);
-        // $hargapangans = HargaPangan::where('pangan_id', $pangan->id)->get();
 
-        return view('home', compact('pangans'));
+        if (auth()->check()) {
+            if (auth()->user()->isPetani()) {
+                return redirect('petani');
+            } elseif (auth()->user()->isTengkulak()) {
+                return redirect('tengkulak');
+            }
+        } else {
+            return view('home', compact('pangans'));
+        }
+    }
+
+    public function home()
+    {
+        if (auth()->check()) {
+            if (auth()->user()->isAdmin()) {
+                return redirect('admin');
+            } elseif (auth()->user()->isPetani()) {
+                return redirect('petani');
+            } elseif (auth()->user()->isTengkulak()) {
+                return redirect('tengkulak');
+            }
+        } else {
+            return redirect('/');
+        }
     }
 
     public function dashboard()

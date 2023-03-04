@@ -1,7 +1,8 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Admin;
 
+use App\Http\Controllers\Controller;
 use App\Models\Berita;
 use App\Models\KategoriPangan;
 use Illuminate\Http\Request;
@@ -82,7 +83,7 @@ class BeritaController extends Controller
             'gambar' => $namagambar,
         ]));
 
-        return redirect('berita')->with('status', 'Berhasil menambahkan Berita');
+        return redirect('admin/berita')->with('status', 'Berhasil menambahkan Berita');
     }
 
     public function show($id)
@@ -138,7 +139,7 @@ class BeritaController extends Controller
                 'gambar' => $namagambar,
             ]);
 
-        return redirect('berita')->with('status', 'Berhasil memperbarui Berita');
+        return redirect('admin/berita')->with('status', 'Berhasil memperbarui Berita');
     }
 
     public function destroy($id)
@@ -147,6 +148,6 @@ class BeritaController extends Controller
         Storage::disk('local')->delete('public/uploads/' . $berita->gambar);
         $berita->delete();
         
-        return redirect('berita')->with('status', 'Berhasil menghapus Berita');
+        return redirect('admin/berita')->with('status', 'Berhasil menghapus Berita');
     }
 }
