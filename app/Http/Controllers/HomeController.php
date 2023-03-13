@@ -33,7 +33,9 @@ class HomeController extends Controller
         $pangans = Pangan::orderByDesc('created_at')->paginate(1);
 
         if (auth()->check()) {
-            if (auth()->user()->isPetani()) {
+            if (auth()->user()->isAdmin()) {
+                return redirect('admin');
+            } elseif (auth()->user()->isPetani()) {
                 return redirect('petani');
             } elseif (auth()->user()->isTengkulak()) {
                 return redirect('tengkulak');
