@@ -3,14 +3,7 @@
 namespace App\Http\Controllers\Petani;
 
 use App\Http\Controllers\Controller;
-use App\Models\Berita;
-use App\Models\HargaPangan;
-use App\Models\KategoriPangan;
-use App\Models\KategoriProduk;
 use App\Models\Pangan;
-use App\Models\Produk;
-use App\Models\User;
-use Illuminate\Http\Request;
 
 class DashboardController extends Controller
 {

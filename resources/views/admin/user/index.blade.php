@@ -20,7 +20,7 @@
   </h5>
   <div class="card-body p-0">
     <div class="px-4 pb-4" style="width: 320px">
-      <form method="get" action="{{ url('user') }}">
+      <form method="get" action="{{ url('admin/user') }}">
         <div class="input-group">
           <input class="form-control me-2" type="text" placeholder="Search" aria-label="Search" name="keyword"
             value="{{ Request::get('keyword') }}">
