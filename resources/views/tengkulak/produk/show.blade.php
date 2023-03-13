@@ -51,7 +51,7 @@
           <i class="bx bxl-whatsapp"></i>
           <span class="align-middle">Hubungi Penjual</span>
         </a> --}}
-        <form action="{{ url('produk/produk/konfirmasi/' . $produk->id) }}" autocomplete="off" method="POST"
+        <form action="{{ url('tengkulak/produk/konfirmasi/' . $produk->id) }}" autocomplete="off" method="POST"
           id="form-konfirmasi">
           @csrf
           @if ($produk->kategori->nama == 'Biasa')

@@ -58,6 +58,7 @@ Route::middleware('petani')->prefix('petani')->group(function () {
 
 Route::middleware('tengkulak')->prefix('tengkulak')->group(function () {
   Route::get('/', [\App\Http\Controllers\Tengkulak\DashboardController::class, 'index']);
+  Route::post('produk/konfirmasi/{id}', [\App\Http\Controllers\Tengkulak\ProdukController::class, 'konfirmasi']);
   Route::resource('produk', \App\Http\Controllers\Tengkulak\ProdukController::class);
   Route::get('berita', [\App\Http\Controllers\Tengkulak\BeritaController::class, 'index']);
 });
