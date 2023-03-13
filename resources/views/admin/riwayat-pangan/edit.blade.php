@@ -5,7 +5,7 @@
 @section('content')
 <h4 class="fw-bold py-3 mb-4">
   <span class="text-muted fw-light">
-    <a href="{{ url('pangan/kategori') }}">Kategori Pangan</a> /
+    <a href="{{ url('admin/riwayat-pangan') }}">Kategori Pangan</a> /
   </span> Ubah
 </h4>
 @if (session('status'))
@@ -24,7 +24,7 @@
     <h5 class="mb-0">Ubah Kategori Harga</h5>
   </div>
   <hr class="my-1" />
-  <form action="{{ url('pangan/kategori/' . $kategoripangan->id) }}" method="POST" enctype="multipart/form-data">
+  <form action="{{ url('admin/riwayat-pangan/' . $kategoripangan->id) }}" method="POST" enctype="multipart/form-data">
     @csrf
     @method('put')
     <div class="card-body">

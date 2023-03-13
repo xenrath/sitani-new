@@ -5,7 +5,7 @@
 @section('content')
 <h4 class="fw-bold py-3 mb-4">
   <span class="text-muted fw-light">
-    <a href="{{ url('hargapangan') }}">Harga Pangan</a> /
+    <a href="{{ url('admin/hargapangan') }}">Harga Pangan</a> /
   </span> Detail
 </h4>
 <!-- Basic Layout -->
