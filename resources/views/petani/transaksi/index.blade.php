@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', 'Produk')
+@section('title', 'Transaksi')
 
 @section('content')
 <div class="d-flex align-items-start justify-content-between py-3">

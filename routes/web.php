@@ -49,6 +49,7 @@ Route::middleware('admin')->prefix('admin')->group(function () {
 
 Route::middleware('petani')->prefix('petani')->group(function () {
   Route::get('/', [\App\Http\Controllers\Petani\DashboardController::class, 'index']);
+  Route::get('hapus-gambar/{id}', [\App\Http\Controllers\Petani\GambarProdukController::class, 'hapus_gambar']);
   Route::resource('produk', \App\Http\Controllers\Petani\ProdukController::class);
   Route::get('berita', [\App\Http\Controllers\Petani\BeritaController::class, 'index']);
   Route::get('transaksi', [\App\Http\Controllers\Petani\TransaksiController::class, 'index']);

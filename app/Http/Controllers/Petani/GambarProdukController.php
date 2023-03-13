@@ -1,9 +1,9 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Petani;
 
+use App\Http\Controllers\Controller;
 use App\Models\GambarProduk;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 
 class GambarProdukController extends Controller

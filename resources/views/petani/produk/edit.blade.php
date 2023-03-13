@@ -99,7 +99,7 @@
                 class="w-100 rounded">
             </div>
             <div class="col-2">
-              <a href="{{ url('hapus-gambar/'. $gambarproduk->id) }}">
+              <a href="{{ url('petani/hapus-gambar/'. $gambarproduk->id) }}">
                 <i class="bx bxs-x-circle bx-sm text-danger"></i>
               </a>
             </div>

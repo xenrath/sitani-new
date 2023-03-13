@@ -5,7 +5,7 @@
 @section('content')
 <h4 class="fw-bold py-3 mb-4">
   <span class="text-muted fw-light">
-    <a href="{{ url('berita') }}">Berita</a> /
+    <a href="{{ url('petani/berita') }}">Berita</a> /
   </span> Edit Berita
 </h4>
 <div class="card">
@@ -13,7 +13,7 @@
     <h5 class="mb-0">Edit Berita</h5>
   </div>
   <hr class="my-1" />
-  <form action="{{ url('berita/' . $berita->id) }}" method="POST" enctype="multipart/form-data">
+  <form action="{{ url('petani/berita/' . $berita->id) }}" method="POST" enctype="multipart/form-data">
     @csrf
     @method('put')
     <div class="card-body">
