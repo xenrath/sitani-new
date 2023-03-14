@@ -228,6 +228,6 @@ class ProdukController extends Controller
             'status' => 'menunggu'
         ]);
 
-        return redirect()->away('https://web.whatsapp.com/send?phone=+62' . $user->telp . '&text=' . $text);
+        return redirect()->away('https://web.whatsapp.com/send?phone=+62' . $produk->user->telp . '&text=' . $text);
     }
 }

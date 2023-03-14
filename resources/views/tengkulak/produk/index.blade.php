@@ -62,8 +62,13 @@
   @foreach ($produks as $produk)
   <div class="col">
     <div class="card h-100">
+      @if (count($produk->gambar) > 0)
       <img class="card-img-top" src="{{ asset('storage/uploads/' . $produk->gambar->first()->gambar) }}"
         alt="{{ $produk->nama }}" height="200px" style="object-position: center; object-fit: none;" />
+      @else
+      <img class="card-img-top" src="{{ asset('storage/uploads/image-placeholder.jpg') }}" alt="{{ $produk->nama }}"
+        height="200px" style="object-position: center; object-fit: none;" />
+      @endif
       <div class="card-body">
         <h5 class="card-title">
           {{ $produk->nama }}

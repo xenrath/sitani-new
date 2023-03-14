@@ -15,8 +15,12 @@
 <div class="card mb-3 p-3">
   <div class="row g-0">
     <div class="col-md-4">
-      <img class="card-img card-img-left rounded"
-        src="{{ asset('storage/uploads/' . $produk->gambar->first()->gambar) }}" alt="{{ $produk->nama }}" />
+      @if (count($produk->gambar) > 0)
+      <img class="card-img card-img-left rounded" src="{{ asset('storage/uploads/' . $produk->gambar->first()->gambar) }}"
+        alt="{{ $produk->nama }}" />
+      @else
+      <img class="card-img card-img-left rounded" src="{{ asset('storage/uploads/image-placeholder.jpg') }}" alt="{{ $produk->nama }}" />
+      @endif
     </div>
     <div class="col-md-8">
       <div class="card-body">
