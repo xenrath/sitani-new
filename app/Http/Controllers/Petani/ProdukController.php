@@ -18,31 +18,7 @@ class ProdukController extends Controller
         $kategori_id = $request->kategori_id;
         $kategoriproduk = KategoriProduk::where('id', $kategori_id)->first();
 
-        $keyword = $request->keyword;
-
-        if (auth()->user()->isTengkulak()) {
-            if ($keyword != "" && $kategori_id != "") {
-                $produks = Produk::where([
-                    ['status', true],
-                    ['kategori_id', $kategori_id],
-                    ['nama', 'like', "%$keyword%"],
-                ])->with('gambar')->get();
-            } elseif ($keyword != "" && $kategori_id == "") {
-                $produks = Produk::where([
-                    ['status', true],
-                    ['nama', 'like', "%$keyword%"]
-                ])->with('gambar')->get();
-            } elseif ($keyword == "" && $kategori_id != "") {
-                $produks = Produk::where([
-                    ['status', true],
-                    ['kategori_id', $kategori_id]
-                ])->with('gambar')->get();
-            } else {
-                $produks = Produk::where('status', true)->with('gambar')->get();
-            }
-        } else {
-            $produks = Produk::with('gambar')->get();
-        }
+        $produks = Produk::where('user_id', auth()->user()->id)->with('gambar')->get();
 
         // return response($produks);
         $kategoriproduks = KategoriProduk::get();
