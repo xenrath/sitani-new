@@ -5,7 +5,7 @@ namespace App\Http\Controllers\Petani;
 use App\Http\Controllers\Controller;
 use App\Models\Produk;
 use App\Models\Transaksi;
-use Illuminate\Http\Request;
+use Dompdf\Dompdf;
 
 class TransaksiController extends Controller
 {
@@ -20,6 +20,25 @@ class TransaksiController extends Controller
         })->where('status', '!=', 'menunggu')->get();
 
         return view('petani.transaksi.index', compact('menunggus', 'riwayats'));
+    }
+
+    public function cetak_pdf($id)
+    {
+        $awal = date("Y-m-d");
+        $akhir = "2023-04-29";
+        
+        $user = auth()->user();
+        $cetakpdf = Transaksi::whereHas('produk', function ($query) use ($user) {
+            $query->where('user_id', $user->id);
+        })->where('id', $id)->first();
+
+        $html = view('petani.transaksi.cetak-pdf', compact('cetakpdf','awal','akhir'));
+
+        $dompdf = new Dompdf();
+        $dompdf->loadHtml($html);
+        $dompdf->setPaper('A4','landscape');
+        $dompdf->render();
+        $dompdf->stream();
     }
 
     public function konfirmasi($id)

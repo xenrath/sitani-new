@@ -22,6 +22,8 @@ class CreateProduksTable extends Migration
             $table->unsignedInteger('kategori_id');
             $table->foreign('kategori_id')->references('id')->on('kategori_produks');
             $table->string('stok');
+            $table->string('latitude');
+            $table->string('longitude');
             $table->string('deskripsi');
             $table->boolean('status')->default(true);
             $table->timestamps();

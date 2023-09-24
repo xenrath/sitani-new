@@ -15,6 +15,8 @@ class Produk extends Model
         'harga',
         'kategori_id',
         'stok',
+        'latitude',
+        'longitude',
         'deskripsi'
     ];
 

@@ -38,6 +38,12 @@
         <li class="nav-item {{ request()->is('tengkulak/berita') ? 'active' : '' }}">
           <a class="nav-link" href="{{ url('tengkulak/berita') }}">Berita</a>
         </li>
+         <li class="nav-item">
+          <a class="nav-link">|</a>
+        </li>
+        <li class="nav-item {{ request()->is('tengkulak/transaksi') ? 'active' : '' }}">
+          <a class="nav-link" href="{{ url('tengkulak/transaksi') }}">Transaksi</a>
+        </li>
         @endif
         @endif
       </ul>
@@ -66,7 +72,7 @@
         </ul>
       </div>
       @else
-      <a href="{{ route('login') }}" class="btn btn-outline-primary me-1">Masuk</a>
+      <a href="{{ url('login-new') }}" class="btn btn-outline-primary me-1">Masuk</a>
       <a href="{{ route('register') }}" class="btn btn-outline-secondary">Registrasi</a>
       @endif
     </div>

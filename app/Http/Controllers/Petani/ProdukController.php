@@ -39,6 +39,8 @@ class ProdukController extends Controller
             'kategori_id' => 'required',
             'harga' => 'required|gt:0',
             'stok' => 'required',
+            'latitude' => 'required',
+            // 'longitude' => 'required',
             'deskripsi' => 'required',
             'gambar' => 'required',
         ], [
@@ -47,6 +49,8 @@ class ProdukController extends Controller
             'harga.required' => 'Harga tidak boleh kosong!',
             'harga.gt' => 'Harga yang dimasukan salah!',
             'stok.required' => 'Stok tidak boleh kosong!',
+            'latitude.required' => 'Silakan pilih lokasi!',
+            // 'longitude.required' => 'Longitude tidak boleh kosong!',
             'deskripsi.required' => 'Deskripsi tidak boleh kosong!',
             'gambar.required' => 'Gambar harus ditambahkan!',
         ]);
@@ -116,6 +120,8 @@ class ProdukController extends Controller
             'kategori_id' => 'required',
             'harga' => 'required|gt:0',
             'stok' => 'required',
+            'latitude' => 'required',
+            // 'longitude' => 'required',
             'deskripsi' => 'required',
         ], [
             'nama.required' => 'Nama produk tidak boleh kosong!',
@@ -123,6 +129,8 @@ class ProdukController extends Controller
             'harga.required' => 'Harga tidak boleh kosong!',
             'harga.gt' => 'Harga yang dimasukan salah!',
             'stok.required' => 'Stok tidak boleh kosong!',
+            'latitude.required' => 'Pilih lokasi!',
+            // 'longitude.required' => 'Stok tidak boleh kosong!',
             'deskripsi.required' => 'Deskripsi tidak boleh kosong!',
             'gambar.required' => 'Gambar harus ditambahkan!',
         ]);
@@ -138,6 +146,8 @@ class ProdukController extends Controller
                 'kategori_id' => $request->kategori_id,
                 'harga' => $request->harga,
                 'stok' => $request->stok,
+                'latitude' => $request->latitude,
+                'longitude' => $request->longitude,
                 'deskripsi' => $request->deskripsi
             ]);
 

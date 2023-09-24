@@ -108,9 +108,18 @@ class ProdukController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show(Produk $produk)
+    public function show($id)
     {
-        return view('tengkulak.produk.show', compact('produk'));
+        $produk = Produk::findOrFail($id);
+
+        $result = [
+            ['nama' => $produk->nama],
+            ['latitude' => $produk->latitude],
+            ['longitude' => $produk->longitude],
+        ];
+
+        $result_lat_long = json_encode($result);
+        return view('tengkulak.produk.show', compact('produk', 'result_lat_long'));
     }
     /**
      * Show the form for editing the specified resource.
@@ -225,7 +234,56 @@ class ProdukController extends Controller
             'tengkulak_id' => $user->id,
             'produk_id' => $produk->id,
             'jumlah' => $jumlah,
+            'tawar' => '',
             'status' => 'menunggu'
+        ]);
+
+        return redirect()->away('https://web.whatsapp.com/send?phone=+62' . $produk->user->telp . '&text=' . $text);
+    }
+
+    public function tawar(Request $request, $id)
+    {
+        $produk = Produk::where('id', $id)->first();
+        $user = auth()->user();
+
+
+        $validator = Validator::make($request->all(), [
+            'tawar' => 'required',
+        ], [
+            'tawar.required' => 'Masukkan penawaran!',
+        ]);
+
+        if ($validator->fails()) {
+            $error = $validator->errors()->all();
+            return back()->withInput()->with('status', $error);
+        }
+
+        $jumlah = $request->jumlah;
+        $total = $produk->harga * $jumlah;
+
+        $basic = "Permisi, Saya " . $user->nama . " dari " . $user->alamat .
+            ".%0ASaya tertarik dengan produk " . $produk->nama . " (" . $produk->kategori->nama .
+            ") Anda ";
+
+        if ($produk->kategori->nama == 'Biasa') {
+            $text = $basic . "sejumlah " . $jumlah . "Kg, dengan harga " . $total;
+        } else {
+            $text = $basic . "dengan harga " . $produk->harga;
+        }
+
+        $stok = $produk->stok - $request->jumlah;
+
+        Produk::where('id', $produk->id)->update([
+            'stok' => $stok
+        ]);
+
+        Transaksi::create([
+            'tengkulak_id' => $user->id,
+            'produk_id' => $produk->id,
+            'tawar' => $request->tawar,
+            'jumlah' => $jumlah,
+            'status' => 'menunggu'
+
         ]);
 
         return redirect()->away('https://web.whatsapp.com/send?phone=+62' . $produk->user->telp . '&text=' . $text);

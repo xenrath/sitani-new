@@ -492,4 +492,16 @@ final class PhpVersionFeature
      * @var int
      */
     public const DEPRECATE_UTF8_DECODE_ENCODE_FUNCTION = \Rector\Core\ValueObject\PhpVersion::PHP_82;
+    /**
+     * @see https://www.php.net/manual/en/filesystemiterator.construct
+     * @var int
+     */
+    public const FILESYSTEM_ITERATOR_SKIP_DOTS = \Rector\Core\ValueObject\PhpVersion::PHP_82;
+    /**
+     * @see https://wiki.php.net/rfc/null-false-standalone-types
+     * @see https://wiki.php.net/rfc/true-type
+     *
+     * @var int
+     */
+    public const NULL_FALSE_TRUE_STANDALONE_TYPE = \Rector\Core\ValueObject\PhpVersion::PHP_82;
 }

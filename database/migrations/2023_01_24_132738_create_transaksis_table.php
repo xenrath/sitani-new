@@ -17,6 +17,7 @@ class CreateTransaksisTable extends Migration
             $table->id();
             $table->unsignedInteger('tengkulak_id');
             $table->unsignedInteger('produk_id');
+            $table->string('tawar');
             $table->string('jumlah');
             $table->enum('status', ['menunggu', 'gagal', 'selesai']);
             $table->timestamps();

@@ -21,6 +21,8 @@ class ProdukSeeder extends Seeder
                 'harga' => '20000000',
                 'kategori_id' => '2',
                 'stok' => '1',
+                'latitude' => '-6.897295642504672',
+                'longitude' => '109.13335381853707',
                 'deskripsi' => 'Menyediakan produk beras medium dengan harga murah produk bagus',
             ],
             [
@@ -29,6 +31,8 @@ class ProdukSeeder extends Seeder
                 'harga' => '40000',
                 'kategori_id' => '1',
                 'stok' => '100',
+                'latitude' => '-6.898275551098579',
+                'longitude' => '109.11876260154958',
                 'deskripsi' => 'Menyediakan produk beras murah dengan produk berkulitas',
             ],
             [
@@ -37,6 +41,8 @@ class ProdukSeeder extends Seeder
                 'harga' => '60000000',
                 'kategori_id' => '2',
                 'stok' => '1',
+                'latitude' => '-6.897295642504672',
+                'longitude' => '109.13335381853707',
                 'deskripsi' => 'Cabe merah keriting bagus produk terjamin murah dan berkualitas',
             ],
             [
@@ -45,6 +51,8 @@ class ProdukSeeder extends Seeder
                 'harga' => '30000',
                 'kategori_id' => '1',
                 'stok' => '100',
+                'latitude' => '-6.897295642504672',
+                'longitude' => '109.13335381853707',
                 'deskripsi' => 'Cabe merah keriting bagus produk terjamin murah dan berkualitas',
             ],
             [
@@ -53,6 +61,8 @@ class ProdukSeeder extends Seeder
                 'harga' => '14000000',
                 'kategori_id' => '2',
                 'stok' => '1',
+                'latitude' => '-6.897295642504672',
+                'longitude' => '109.13335381853707',
                 'deskripsi' => 'Jagung bagus harga terjangkau murah kualitas bisa dijamin',
             ],
             [
@@ -61,6 +71,8 @@ class ProdukSeeder extends Seeder
                 'harga' => '7000',
                 'kategori_id' => '1',
                 'stok' => '100',
+                'latitude' => '-6.897295642504672',
+                'longitude' => '109.13335381853707',
                 'deskripsi' => 'Jagung bagus harga terjangkau murah kualitas bisa dijamin',
             ],
             [
@@ -69,6 +81,8 @@ class ProdukSeeder extends Seeder
                 'harga' => '52000000',
                 'kategori_id' => '2',
                 'stok' => '1',
+                'latitude' => '-6.897295642504672',
+                'longitude' => '109.13335381853707',
                 'deskripsi' => 'Menyediakan bawang merah baru panen produk bagus kualitas terbaik',
             ],
             [
@@ -77,6 +91,8 @@ class ProdukSeeder extends Seeder
                 'harga' => '26000',
                 'kategori_id' => '1',
                 'stok' => '100',
+                'latitude' => '-6.897295642504672',
+                'longitude' => '109.13335381853707',
                 'deskripsi' => 'Menyediakan bawang merah baru panen produk bagus kualitas terbaik',
             ],
             [
@@ -85,6 +101,8 @@ class ProdukSeeder extends Seeder
                 'harga' => '46000000',
                 'kategori_id' => '2',
                 'stok' => '1',
+                'latitude' => '-6.897295642504672',
+                'longitude' => '109.13335381853707',
                 'deskripsi' => 'Menyediakan bawang putih produk bagus kualitas terbaik bisa di cek terlebih dahulu dan masih banyak bahan pangan yang lainnya',
             ],
             [
@@ -93,6 +111,8 @@ class ProdukSeeder extends Seeder
                 'harga' => '23000',
                 'kategori_id' => '1',
                 'stok' => '100',
+                'latitude' => '-6.897295642504672',
+                'longitude' => '109.13335381853707',
                 'deskripsi' => 'Menyediakan bawang putih produk bagus kualitas terbaik bisa di cek terlebih dahulu dan masih banyak bahan pangan yang lainnya',
             ],
             [
@@ -101,6 +121,8 @@ class ProdukSeeder extends Seeder
                 'harga' => '27000000',
                 'kategori_id' => '2',
                 'stok' => '1',
+                'latitude' => '-6.897295642504672',
+                'longitude' => '109.13335381853707',
                 'deskripsi' => 'Kedelai bagus produk berkualitas harga murah ',
             ],
             [
@@ -109,6 +131,8 @@ class ProdukSeeder extends Seeder
                 'harga' => '13500',
                 'kategori_id' => '1',
                 'stok' => '100',
+                'latitude' => '-6.897295642504672',
+                'longitude' => '109.13335381853707',
                 'deskripsi' => 'Kedelai bagus produk berkualitas harga murah ',
             ],
             [
@@ -117,6 +141,8 @@ class ProdukSeeder extends Seeder
                 'harga' => '27000000',
                 'kategori_id' => '2',
                 'stok' => '1',
+                'latitude' => '-6.897295642504672',
+                'longitude' => '109.13335381853707',
                 'deskripsi' => 'Menjual ubi jalar produk berkualitas bisa dicek terlebih dahulu harga murah terjamin bagus',
             ],
             [
@@ -125,6 +151,8 @@ class ProdukSeeder extends Seeder
                 'harga' => '13500',
                 'kategori_id' => '1',
                 'stok' => '100',
+                'latitude' => '-6.897295642504672',
+                'longitude' => '109.13335381853707',
                 'deskripsi' => 'Menjual ubi jalar produk berkualitas bisa dicek terlebih dahulu harga murah terjamin bagus',
             ],
         ];

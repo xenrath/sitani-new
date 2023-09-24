@@ -22,8 +22,7 @@
         <select class="form-select" id="kategoripangan_id" name="kategoripangan_id">
           <option value="">- Pilih -</option>
           @foreach ($kategoripangans as $kategoripangan)
-          <option value="{{ $kategoripangan->id }}" {{ old('kategoripangan_id', $berita->
-            kategoripangan_id)==$kategoripangan->id ? 'selected' : null
+          <option value="{{ $kategoripangan->id }}" {{ old('kategoripangan_id', $berita->kategoripangan_id)==$kategoripangan->id ? 'selected' : null
             }}>{{ $kategoripangan->nama }}</option>
           @endforeach
         </select>

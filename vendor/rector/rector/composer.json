@@ -2,12 +2,13 @@
     "name": "rector/rector",
     "description": "Instant Upgrade and Automated Refactoring of any PHP code",
     "license": "MIT",
+    "keywords": ["dev", "refactoring", "automation", "migration"],
     "bin": [
         "bin/rector"
     ],
     "require": {
         "php": "^7.2|^8.0",
-        "phpstan/phpstan": "^1.9.4"
+        "phpstan/phpstan": "^1.10.14"
     },
     "autoload": {
         "files": [
@@ -16,14 +17,13 @@
     },
     "extra": {
         "branch-alias": {
-            "dev-main": "0.14-dev"
+            "dev-main": "0.15-dev"
         }
     },
     "conflict": {
         "rector/rector-phpunit": "*",
         "rector/rector-symfony": "*",
         "rector/rector-doctrine": "*",
-        "rector/rector-php-parser": "*",
         "rector/rector-downgrade-php": "*"
     },
     "minimum-stability": "dev",

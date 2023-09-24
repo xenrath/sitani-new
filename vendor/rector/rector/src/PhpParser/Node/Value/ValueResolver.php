@@ -120,7 +120,7 @@ final class ValueResolver
         return null;
     }
     /**
-     * @api downgrade symfony
+     * @api symfony
      * @param mixed[] $expectedValues
      */
     public function isValues(Expr $expr, array $expectedValues) : bool
@@ -155,7 +155,7 @@ final class ValueResolver
     public function areValuesEqual(array $nodes, array $expectedValues) : bool
     {
         foreach ($nodes as $i => $node) {
-            if ($node === null) {
+            if (!$node instanceof Expr) {
                 return \false;
             }
             if (!$this->isValue($node, $expectedValues[$i])) {
@@ -182,7 +182,7 @@ final class ValueResolver
     }
     private function getConstExprEvaluator() : ConstExprEvaluator
     {
-        if ($this->constExprEvaluator !== null) {
+        if ($this->constExprEvaluator instanceof ConstExprEvaluator) {
             return $this->constExprEvaluator;
         }
         $this->constExprEvaluator = new ConstExprEvaluator(function (Expr $expr) {
@@ -272,6 +272,10 @@ final class ValueResolver
         }
         $classReflection = $this->reflectionProvider->getClass($class);
         if (!$classReflection->hasConstant($constant)) {
+            // fallback to constant reference itself, to avoid fatal error
+            return $classConstantReference;
+        }
+        if ($classReflection->isEnum()) {
             // fallback to constant reference itself, to avoid fatal error
             return $classConstantReference;
         }

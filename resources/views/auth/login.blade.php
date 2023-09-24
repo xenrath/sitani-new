@@ -115,7 +115,7 @@
                 <input type="text" class="form-control" id="telp" name="telp" placeholder="Masukan nomor telepon"
                   autofocus />
               </div>
-              <div class="mb-3 form-password-toggle">
+              <div class="mb-3">
                 <div class="d-flex justify-content-between">
                   <label class="form-label" for="password">Password</label>
                 </div>

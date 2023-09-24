@@ -28,4 +28,13 @@ class RiwayatPanganController extends Controller
         $file = public_path('storage/uploads/' . $pangan->file);
         return response()->download($file);
     }
+
+    public function statistik($id)
+    {
+        $pangan = Pangan::where('id', $id)->first();
+        $data = HargaPangan::where('pangan_id', $id)->pluck('harga');
+        $label = HargaPangan::where('pangan_id', $id)->pluck('nama');
+
+        return view('admin.riwayat-pangan.statistik', compact('pangan', 'data', 'label'));
+    }
 }

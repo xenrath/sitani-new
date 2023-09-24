@@ -8,21 +8,20 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-namespace RectorPrefix202212\Symfony\Component\Console\Command;
+namespace RectorPrefix202304\Symfony\Component\Console\Command;
 
-use RectorPrefix202212\Symfony\Component\Console\Attribute\AsCommand;
-use RectorPrefix202212\Symfony\Component\Console\Input\InputArgument;
-use RectorPrefix202212\Symfony\Component\Console\Input\InputInterface;
-use RectorPrefix202212\Symfony\Component\Console\Input\InputOption;
-use RectorPrefix202212\Symfony\Component\Console\Output\ConsoleOutputInterface;
-use RectorPrefix202212\Symfony\Component\Console\Output\OutputInterface;
-use RectorPrefix202212\Symfony\Component\Process\Process;
+use RectorPrefix202304\Symfony\Component\Console\Attribute\AsCommand;
+use RectorPrefix202304\Symfony\Component\Console\Input\InputArgument;
+use RectorPrefix202304\Symfony\Component\Console\Input\InputInterface;
+use RectorPrefix202304\Symfony\Component\Console\Input\InputOption;
+use RectorPrefix202304\Symfony\Component\Console\Output\ConsoleOutputInterface;
+use RectorPrefix202304\Symfony\Component\Console\Output\OutputInterface;
+use RectorPrefix202304\Symfony\Component\Process\Process;
 /**
  * Dumps the completion script for the current shell.
  *
  * @author Wouter de Jong <wouter@wouterj.nl>
  */
-#[\Symfony\Component\Console\Attribute\AsCommand(name: 'completion', description: 'Dump the shell completion script')]
 final class DumpCompletionCommand extends Command
 {
     /**
@@ -54,9 +53,10 @@ final class DumpCompletionCommand extends Command
                 [$rcFile, $completionFile] = ['~/.bashrc', "/etc/bash_completion.d/{$commandName}"];
                 break;
         }
+        $supportedShells = \implode(', ', $this->getSupportedShells());
         $this->setHelp(<<<EOH
 The <info>%command.name%</> command dumps the shell completion script required
-to use shell autocompletion (currently, bash and fish completion is supported).
+to use shell autocompletion (currently, {$supportedShells} completion are supported).
 
 <comment>Static installation
 -------------------</>

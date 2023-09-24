@@ -142,7 +142,7 @@ CODE_SAMPLE
     private function matchOnEqualFirstValueAndSecondValue(If_ $if) : void
     {
         $this->matchOnEqual($if);
-        if ($if->else !== null) {
+        if ($if->else instanceof Else_) {
             $this->processElse($if->else);
         } else {
             $nextNode = $if->getAttribute(AttributeKey::NEXT_NODE);
@@ -172,10 +172,15 @@ CODE_SAMPLE
         }
         $onlyIfStmt = $if->stmts[0];
         if ($onlyIfStmt instanceof Return_) {
-            if ($onlyIfStmt->expr === null) {
+            if (!$onlyIfStmt->expr instanceof Expr) {
                 return;
             }
-            $this->onEqual = $this->valueResolver->getValue($onlyIfStmt->expr);
+            // on Enum usage not in same file, it got object
+            $value = $this->valueResolver->getValue($onlyIfStmt->expr);
+            if (\is_object($value)) {
+                return;
+            }
+            $this->onEqual = $value;
         }
     }
     private function processElse(Else_ $else) : void
@@ -198,7 +203,7 @@ CODE_SAMPLE
         if ($ternary->cond instanceof Smaller) {
             $this->firstValue = $ternary->cond->left;
             $this->secondValue = $ternary->cond->right;
-            if ($ternary->if !== null) {
+            if ($ternary->if instanceof Expr) {
                 $this->onSmaller = $this->valueResolver->getValue($ternary->if);
             }
             $this->onGreater = $this->valueResolver->getValue($ternary->else);
@@ -206,7 +211,7 @@ CODE_SAMPLE
         } elseif ($ternary->cond instanceof Greater) {
             $this->firstValue = $ternary->cond->right;
             $this->secondValue = $ternary->cond->left;
-            if ($ternary->if !== null) {
+            if ($ternary->if instanceof Expr) {
                 $this->onGreater = $this->valueResolver->getValue($ternary->if);
             }
             $this->onSmaller = $this->valueResolver->getValue($ternary->else);

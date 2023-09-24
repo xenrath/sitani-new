@@ -16,11 +16,13 @@ class CreateUsersTable extends Migration
         Schema::create('users', function (Blueprint $table) {
             $table->increments('id');
             $table->string('nama');
-            $table->string('telp')->unique();  
+            $table->string('telp')->unique();
             $table->string('alamat')->nullable();
             $table->string('foto')->nullable();
             $table->enum('role', ['admin', 'petani', 'tengkulak']);
             $table->string('password');
+            $table->string('verifikasi');
+            // $table->string('kode');
             $table->rememberToken();
             $table->timestamps();
         });

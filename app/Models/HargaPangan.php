@@ -16,6 +16,11 @@ class HargaPangan extends Model
         'harga',
     ];
 
+    public function pangan()
+    {
+        return $this->belongsTo(Pangan::class);
+    }
+
     public function kategoripangan()
     {
         return $this->belongsTo(KategoriPangan::class, 'kategori', 'id');
